@@ -32,7 +32,7 @@ jobs:
       name: Get version
       run: |
         echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
-        cd ${{ github.workspace }}/strato
+        cd ${{ github.workspace }}/pcsx2
         echo "hash=$(git log -1 --pretty=format:%H)" >> $GITHUB_OUTPUT
         echo "short_hash=$(git describe --always --long)" >> $GITHUB_OUTPUT
         echo "version=$(git describe --tags --always)" >> $GITHUB_OUTPUT
@@ -44,9 +44,9 @@ jobs:
            ~/.gradle/caches
            ~/.gradle/wrapper
            ~/.cache
-         key: ${{ runner.os }}-strato-android-${{ steps.version.outputs.hash }}
+         key: ${{ runner.os }}-APKSX2-android-${{ steps.version.outputs.hash }}
          restore-keys: |
-             ${{ runner.os }}-strato-android-
+             ${{ runner.os }}-APKSX2-android-
 
     - name: Prepare environment
       run: |
