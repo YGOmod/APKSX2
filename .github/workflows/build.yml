@@ -29,7 +29,7 @@ jobs:
           ANDROID_KEY_STORE_PASSWORD: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
-          # cd ./src/android
+          chmod +x ./gradlew 
           ./gradlew assembleRelease
 
       - name: Upload artifact
