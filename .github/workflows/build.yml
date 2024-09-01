@@ -4,76 +4,37 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'select branch to build(default: master)'
+        description: 'select branch to build (default: master)'
         required: false
         default: 'master'
-  #schedule:
-  #  - cron: "30 * * * 5"
 
 jobs:
   apkpsx2_android_build:
-    permissions:
-      contents: write
+
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-java@v4
-      with:
-        distribution: temurin
-        java-version: 17
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          submodules: "recursive"
+          fetch-depth: 0
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Build APKSX2 for Android
+        env:
+          ANDROID_STORE_FILE_BASE64: ${{ secrets.ANDROID_STORE_FILE_BASE64 }}
+          ANDROID_KEY_STORE_PASSWORD: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          cd ./src/android
+          ./gradlew assembleRelease
 
-    #- name: Download original source code
-     # run: |
-       # cd ${{ github.workspace }}
-       # git clone --branch ${{ github.event.inputs.branch || 'master' }} https://github.com/pontos2024/PCSX2.git
-       # cd strato
-        
-
-    - id: version
-      name: Get version
-      run: |
-        echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
-        cd ${{ github.workspace }}/pcsx2
-        echo "hash=$(git log -1 --pretty=format:%H)" >> $GITHUB_OUTPUT
-        echo "short_hash=$(git describe --always --long)" >> $GITHUB_OUTPUT
-        echo "version=$(git describe --tags --always)" >> $GITHUB_OUTPUT
-
-    - name: Set up cache
-      uses: actions/cache@v4
-      with:
-         path: |
-           ~/.gradle/caches
-           ~/.gradle/wrapper
-           ~/.cache
-         key: ${{ runner.os }}-APKSX2-android-${{ steps.version.outputs.hash }}
-         restore-keys: |
-             ${{ runner.os }}-APKSX2-android-
-
-    - name: Prepare environment
-      run: |
-        sudo apt-get install ccache glslang-dev glslang-tools 
-        sudo apt-get install -y ninja-build
-        ln -s /usr/bin/ninja .
-
-    - name: Build Android
-      run: |
-        export NDK_CCACHE="$(which ccache)"
-        ccache -sv
-        cd ${{ github.workspace }}/APKSX2
-        chmod +x ./gradlew
-        ./gradlew --no-daemon --stacktrace --build-cache --parallel --configure-on-demand assemble${{ github.event.inputs.flavor || 'mainline' }}Release
-        mv $(find app/build/outputs/apk -type f | grep -E "\.apk$") ${{ github.workspace }}/APKSX2-android-${{ github.event.inputs.flavor || 'mainline' }}-${{ steps.version.outputs.date }}-${{ steps.version.outputs.version }}.apk
-        ccache -sv
-
-    - name: Release APKSX2 Android 
-      uses: softprops/action-gh-release@v2
-      with:
-        name: APKSX2 Android ${{ steps.version.outputs.date }}
-        tag_name: APKSX2-android
-        files: ${{ github.workspace }}/APKSX2-android-${{ github.event.inputs.flavor || 'mainline' }}-${{ steps.version.outputs.date }}-${{ steps.version.outputs.version }}.apk
-
-    - name: Release APKSX2 Android ${{ steps.version.outputs.date }}
-      uses: softprops/action-gh-release@v2
-      with:
-        name: ${{ steps.version.outputs.date }}
-        tag_name: ${{ steps.version.outputs.date }}
-        files: ${{ github.workspace }}/APKSX2-android-${{ github.event.inputs.flavor || 'mainline' }}-${{ steps.version.outputs.date }}-${{ steps.version.outputs.version }}.apk
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cemu-android
+          path: |
+            ./src/android/app/build/outputs/apk/release/*.apk
