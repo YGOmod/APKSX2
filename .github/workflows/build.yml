@@ -37,4 +37,4 @@ jobs:
         with:
           name: cemu-android
           path: |
-            ./src/android/app/build/outputs/apk/release/*.apk
+            ./app/build/outputs/apk/release/*.apk
