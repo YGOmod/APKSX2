@@ -4,9 +4,10 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "Common.h"
 
-#include "IopCommon.h"
 #include "Mdec.h"
+#include "IopHw.h"
 
 void mdecInit(void) {
 }

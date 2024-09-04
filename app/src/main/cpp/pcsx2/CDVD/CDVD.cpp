@@ -14,7 +14,10 @@
  */
 
 #include "PrecompiledHeader.h"
-#include "IopCommon.h"
+#include "R3000A.h"
+#include "Common.h"
+#include "IopHw.h"
+#include "IopDma.h"
 
 #include <memory>
 #include <ctype.h>

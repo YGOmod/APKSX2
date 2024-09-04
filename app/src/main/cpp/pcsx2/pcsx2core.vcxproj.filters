@@ -1210,9 +1210,6 @@
     <ClInclude Include="Dump.h">
       <Filter>System\Include</Filter>
     </ClInclude>
-    <ClInclude Include="IopCommon.h">
-      <Filter>System\Include</Filter>
-    </ClInclude>
     <ClInclude Include="SaveState.h">
       <Filter>System\Include</Filter>
     </ClInclude>

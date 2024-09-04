@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 // Test game file
                 File externalFilesDir = getExternalFilesDir(null);
                 if(externalFilesDir != null) {
-                    m_szGamefile = String.format("%s/%s", externalFilesDir.getAbsolutePath());
+                    m_szGamefile = String.format("%s/GradiusV.iso", externalFilesDir.getAbsolutePath());
                     File _file = new File(m_szGamefile);
                     if(_file.exists()) {
                         // File => /storage/emulated/0/Android/data/kr.co.iefriends.pcsx2/files/GradiusV.iso
