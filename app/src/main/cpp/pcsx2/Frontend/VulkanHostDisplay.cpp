@@ -1,4 +1,4 @@
-﻿#include "PrecompiledHeader.h"
+#include "PrecompiledHeader.h"
 
 #include "VulkanHostDisplay.h"
 #include "common/Align.h"
@@ -106,8 +106,8 @@ bool VulkanHostDisplay::ChangeRenderWindow(const WindowInfo& new_wi)
 	}
 
 	WindowInfo wi_copy(new_wi);
-	VkSurfaceKHR surface =
-		Vulkan::SwapChain::CreateVulkanSurface(g_vulkan_context->GetVulkanInstance(), g_vulkan_context->GetPhysicalDevice(), &wi_copy);
+	VkSurfaceKHR surface = Vulkan::SwapChain::CreateVulkanSurface(
+		g_vulkan_context->GetVulkanInstance(), g_vulkan_context->GetPhysicalDevice(), &wi_copy);
 	if (surface == VK_NULL_HANDLE)
 	{
 		Console.Error("Failed to create new surface for swap chain");
@@ -387,6 +387,7 @@ bool VulkanHostDisplay::BeginPresent(bool frame_skip)
 			// Still submit the command buffer, otherwise we'll end up with several frames waiting.
 			LOG_VULKAN_ERROR(res, "vkAcquireNextImageKHR() failed: ");
             g_vulkan_context->ExecuteCommandBuffer(Vulkan::Context::WaitType::None);
+            m_swap_chain.reset();
 			return false;
 		}
 	}

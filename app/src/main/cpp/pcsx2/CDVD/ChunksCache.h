@@ -15,7 +15,8 @@
 
 #pragma once
 
-#include "zlib_indexed.h"
+#include "common/Pcsx2Types.h"
+#include <list>
 
 #define CLAMP(val, minval, maxval) (std::min(maxval, std::max(minval, val)))
 

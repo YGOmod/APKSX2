@@ -66,11 +66,11 @@ public:
 
 	void Put(counter_t c, double val) { m_counters[c] += val; }
 	double Get(counter_t c) { return m_stats[c]; }
-    float GetTimer(timer_t t) { return m_timer_stats[t]; }
+	float GetTimer(timer_t t) { return m_timer_stats[t]; }
 	void Update();
 
-    void Start(int timer = Main);
-    void Stop(int timer = Main);
+	void Start(int timer = Main);
+	void Stop(int timer = Main);
 
 	__fi void AddDisplayFramebufferSpriteBlit() { m_disp_fb_sprite_blits++; }
 	__fi int GetDisplayFramebufferSpriteBlits()
@@ -83,16 +83,16 @@ public:
 
 class GSPerfMonAutoTimer
 {
-    GSPerfMon* m_pm;
-    int m_timer;
+	GSPerfMon* m_pm;
+	int m_timer;
 
 public:
-    GSPerfMonAutoTimer(GSPerfMon* pm, int timer = GSPerfMon::Main)
-    {
-        m_timer = timer;
-        (m_pm = pm)->Start(m_timer);
-    }
-    ~GSPerfMonAutoTimer() { m_pm->Stop(m_timer); }
+	GSPerfMonAutoTimer(GSPerfMon* pm, int timer = GSPerfMon::Main)
+	{
+		m_timer = timer;
+		(m_pm = pm)->Start(m_timer);
+	}
+	~GSPerfMonAutoTimer() { m_pm->Stop(m_timer); }
 };
 
 extern GSPerfMon g_perfmon;

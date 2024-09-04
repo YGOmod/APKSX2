@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PCSX2</string>
+    <string name="action_switch_view">Switch View</string>
 </resources>

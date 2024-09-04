@@ -116,7 +116,8 @@ Java_kr_co_iefriends_pcsx2_NativeApp_setPadVibration(JNIEnv *env, jclass clazz,
     PAD::SetVibration(p_isOnOff);
 }
 
-extern "C" JNIEXPORT void JNICALL
+extern "C"
+JNIEXPORT void JNICALL
 Java_kr_co_iefriends_pcsx2_NativeApp_setPadButton(JNIEnv *env, jclass clazz,
                                                   jint p_key, jint p_range, jboolean p_keyPressed) {
     HostKeyEvent _keyEvent{};
@@ -130,7 +131,8 @@ Java_kr_co_iefriends_pcsx2_NativeApp_setPadButton(JNIEnv *env, jclass clazz,
     PAD::HandleHostInputEvent(_keyEvent);
 }
 
-extern "C" JNIEXPORT void JNICALL
+extern "C"
+JNIEXPORT void JNICALL
 Java_kr_co_iefriends_pcsx2_NativeApp_resetKeyStatus(JNIEnv *env, jclass clazz) {
     g_key_status.Init();
 }
