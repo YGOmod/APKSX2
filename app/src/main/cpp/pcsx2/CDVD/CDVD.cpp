@@ -596,7 +596,7 @@ s32 cdvdCtrlTrayOpen()
 
 	DiscSwapTimerSeconds = cdvd.RTC.second; // remember the PS2 time when this happened
 	cdvd.Status = CDVD_STATUS_TRAY_OPEN;
-	cdvd.Ready &= ~CDVD_DRIVE_READY;
+	cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 
 	cdvd.mediaChanged = true;
 
@@ -617,7 +617,7 @@ s32 cdvdCtrlTrayClose()
 	if (!g_GameStarted && g_SkipBiosHack)
 	{
 		DevCon.WriteLn(Color_Green, L"Media already loaded (fast boot)");
-		cdvd.Ready |= CDVD_DRIVE_READY;
+		cdvd.Ready = CDVD_DRIVE_READY | CDVD_DRIVE_DEV9CON;
 		cdvd.Status = CDVD_STATUS_PAUSE;
 		cdvd.Tray.trayState = CDVD_DISC_ENGAGED;
 		cdvd.Tray.cdvdActionSeconds = 0;
@@ -625,7 +625,7 @@ s32 cdvdCtrlTrayClose()
 	else
 	{
 		DevCon.WriteLn(Color_Green, L"Detecting media");
-		cdvd.Ready &= ~CDVD_DRIVE_READY;
+		cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 		cdvd.Status = CDVD_STATUS_SEEK;
 		cdvd.Tray.trayState = CDVD_DISC_DETECTING;
 		cdvd.Tray.cdvdActionSeconds = 3;
@@ -773,7 +773,7 @@ void cdvdReset()
 	cdvd.Spinning = false;
 
 	cdvd.sDataIn = 0x40;
-	cdvd.Ready |= CDVD_DRIVE_READY;
+	cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 	cdvd.Status = CDVD_STATUS_PAUSE;
 	cdvd.Speed = 4;
 	cdvd.BlockSize = 2064;
@@ -867,7 +867,7 @@ void cdvdNewDiskCB()
 	{
 		DevCon.WriteLn(Color_Green, L"Ejecting media");
 		cdvd.Status = CDVD_STATUS_TRAY_OPEN;
-		cdvd.Ready &= ~CDVD_DRIVE_READY;
+		cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 		cdvd.Tray.trayState = CDVD_DISC_EJECT;
 		cdvd.mediaChanged = true;
 
@@ -878,7 +878,7 @@ void cdvdNewDiskCB()
 	else if (cdvd.Type > 0)
 	{
 		DevCon.WriteLn(Color_Green, L"Seeking new media");
-		cdvd.Ready &= ~CDVD_DRIVE_READY;
+		cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 		cdvd.Status = CDVD_STATUS_SEEK;
 		cdvd.Tray.trayState = CDVD_DISC_DETECTING;
 		cdvd.Tray.cdvdActionSeconds = 3;
@@ -1021,7 +1021,7 @@ __fi void cdvdActionInterrupt()
 	{
 		case cdvdAction_Seek:
 			cdvd.Spinning = true;
-			cdvd.Ready |= CDVD_DRIVE_READY; //check (rama)
+			cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 			cdvd.Sector = cdvd.SeekToSector;
 			cdvd.Status = CDVD_STATUS_READ;
 			cdvd.nextSectorsBuffered = 0;
@@ -1031,7 +1031,7 @@ __fi void cdvdActionInterrupt()
 		case cdvdAction_Standby:
 			DevCon.Warning("CDVD Standby Call");
 			cdvd.Spinning = true; //check (rama)
-			cdvd.Ready |= CDVD_DRIVE_READY; //check (rama)
+			cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 			cdvd.Sector = cdvd.SeekToSector;
 			cdvd.Status = CDVD_STATUS_READ;
 			cdvd.nextSectorsBuffered = 0;
@@ -1040,7 +1040,7 @@ __fi void cdvdActionInterrupt()
 
 		case cdvdAction_Stop:
 			cdvd.Spinning = false;
-			cdvd.Ready |= CDVD_DRIVE_READY;
+			cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 			cdvd.Sector = 0;
 			cdvd.Status = CDVD_STATUS_STOP;
 			break;
@@ -1048,12 +1048,12 @@ __fi void cdvdActionInterrupt()
 		case cdvdAction_Break:
 			// Make sure the cdvd action state is pretty well cleared:
 			DevCon.WriteLn("CDVD Break Call");
-			if (!(cdvd.Ready & 0x40))
+			if ((cdvd.Ready & 0x80))
 				cdvd.Error = 1; // Abort
 
 			cdvd.Reading = 0;
 			cdvd.Readed = 0;
-			cdvd.Ready |= CDVD_DRIVE_READY; // should be CDVD_READY1 or something else?
+			cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON | CDVD_DRIVE_ERROR; // should be CDVD_READY1 or something else?
 			cdvd.Status = CDVD_STATUS_PAUSE; //Break stops the command in progress it doesn't stop the drive. Formula 2001
 			cdvd.RErr = 0;
 			break;
@@ -1089,7 +1089,7 @@ __fi void cdvdReadInterrupt()
 {
 	//Console.WriteLn("cdvdReadInterrupt %x %x %x %x %x", cpuRegs.interrupt, cdvd.Readed, cdvd.Reading, cdvd.nSectors, (HW_DMA3_BCR_H16 * HW_DMA3_BCR_L16) *4);
 
-	cdvd.Ready &= ~CDVD_DRIVE_READY;
+	cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 	cdvd.Status = CDVD_STATUS_READ;
 	cdvd.WaitingDMA = false;
 	
@@ -1180,7 +1180,7 @@ __fi void cdvdReadInterrupt()
 			// Setting the data ready flag fixes a black screen loading issue in
 			// Street Fighter Ex3 (NTSC-J version).
 			cdvdSetIrq();
-			cdvd.Ready |= CDVD_DRIVE_READY;
+			cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 
 			if (cdvd.nextSectorsBuffered < 16)
 				cdvd.Status = CDVD_STATUS_READ;
@@ -1202,7 +1202,7 @@ __fi void cdvdReadInterrupt()
 			cdvdSetIrq();
 			//psxHu32(0x1070) |= 0x4;
 			iopIntcIrq(2);
-			cdvd.Ready |= CDVD_DRIVE_READY;
+			cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 
 			cdvd.Status = CDVD_STATUS_PAUSE;
 
@@ -1229,7 +1229,7 @@ static uint cdvdStartSeek(uint newsector, CDVD_MODE_TYPE mode)
 	uint delta = abs((s32)(cdvd.SeekToSector - cdvd.Sector));
 	uint seektime;
 
-	cdvd.Ready &= ~(CDVD_DRIVE_READY | CDVD_DRIVE_DATARDY);
+	cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 	cdvd.Reading = 1;
 	cdvd.Readed = 0;
 	// Okay so let's explain this, since people keep messing with it in the past and just poking it.
@@ -1342,7 +1342,7 @@ void cdvdUpdateTrayState()
 				case CDVD_DISC_SEEKING:
 				case CDVD_DISC_ENGAGED:
 					cdvd.Tray.trayState = CDVD_DISC_ENGAGED;
-					cdvd.Ready |= CDVD_DRIVE_READY;
+					cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 					if (CDVDsys_GetSourceType() != CDVD_SourceType::NoDisc)
 					{
 						DevCon.WriteLn(Color_Green, L"Media ready to read");
@@ -1560,6 +1560,7 @@ static bool cdvdReadErrorHandler()
 	{
 		DevCon.Warning("Bad Sector Count Error");
 		cdvd.Error = 0x21; // Number of read sectors abnormal
+		cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON | CDVD_DRIVE_ERROR;
 		cdvdSetIrq();
 		return false;
 	}
@@ -1568,6 +1569,7 @@ static bool cdvdReadErrorHandler()
 	{
 		DevCon.Warning("Invalid Sector Error");
 		cdvd.Error = 0x20; // Sector position is abnormal
+		cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON | CDVD_DRIVE_ERROR;
 		cdvdSetIrq();
 		return false;
 	}
@@ -1615,7 +1617,7 @@ static void cdvdWrite04(u8 rt)
 			// A few games rely on PAUSE setting the Status correctly.
 			// However we should probably stop any read in progress too, just to be safe
 			psxRegs.interrupt &= ~(1 << IopEvt_Cdvd);
-			cdvd.Ready |= CDVD_DRIVE_READY;
+			cdvd.Ready = CDVD_DRIVE_BUSY | CDVD_DRIVE_DEV9CON;
 			cdvdSetIrq();
 			//After Pausing needs to buffer the next sector
 			cdvd.Status = CDVD_STATUS_READ;
