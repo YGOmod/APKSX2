@@ -4,20 +4,11 @@
    android:layout_width="fill_parent"
    android:layout_height="fill_parent">
   <FrameLayout
-     android:id="@id/fl_home_top"
+     android:id="@+id/fl_home_top"
      android:background="#FFFFFFFF"
      android:layout_width="fill_parent"
-     android:layout_height="50.0dip"
-     app:layout_constraintTop_toTopOf="0">
-    <Button
-       android:textSize="16.0dip"
-       android:layout_gravity="start|center"
-       android:id="@id/btn_app_info"
-       android:background="@drawable/vector_about"
-       android:layout_width="42.0dip"
-       android:layout_height="42.0dip"
-       android:layout_margin="5.0dip"
-       style="?android:0101032F"/>
+     android:layout_height="42.0dip"
+     app:layout_constraintTop_toTopOf="parent">
     <TextView
        android:textSize="20.0dip"
        android:textColor="#FF008577"
@@ -26,37 +17,4 @@
        android:layout_height="wrap_content"
        android:text="@string/app_name"/>
   </FrameLayout>
-  <androidx.recyclerview.widget.RecyclerView
-     android:id="@id/gridview_images"
-     android:padding="5.0dip"
-     android:scrollbars="vertical"
-     android:layout_width="0.0dip"
-     android:layout_height="0.0dip"
-     android:scrollbarFadeDuration="0"
-     app:layout_constraintBottom_toBottomOf="0"
-     app:layout_constraintEnd_toEndOf="0"
-     app:layout_constraintStart_toStartOf="0"
-     app:layout_constraintTop_toBottomOf="@id/fl_home_top"/>
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-     android:id="@id/btn_ftp"
-     android:focusable="true"
-     android:clickable="true"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_marginBottom="16.0dip"
-     android:src="@drawable/vector_folder"
-     android:tint="@android:0106000B"
-     android:layout_marginEnd="8.0dip"
-     app:layout_constraintBottom_toBottomOf="0"
-     app:layout_constraintEnd_toEndOf="0"/>
-  <TextView
-     android:id="@id/tv_game_not_found"
-     android:visibility="gone"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_marginBottom="32.0dip"
-     android:text="@string/str_game_not_found"
-     android:layout_marginEnd="8.0dip"
-     app:layout_constraintBottom_toBottomOf="0"
-     app:layout_constraintEnd_toStartOf="@id/btn_ftp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
