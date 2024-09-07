@@ -5,10 +5,10 @@
      android:id="@+id/action_search"
      android:title="@string/action_search"
      app:actionViewClass="androidx.appcompat.widget.SearchView"
-     app:showAsAction="0x00000009"/>
+     app:showAsAction="ifRoom"/>
   <item
      android:icon="@drawable/ic_switch_view"
      android:id="@+id/action_switch_view"
      android:title="@string/action_switch_view"
-     app:showAsAction="0x00000001"/>
+     app:showAsAction="ifRoom"/>
 </menu>
