@@ -17,4 +17,16 @@
        android:layout_height="wrap_content"
        android:text="@string/app_name"/>
   </FrameLayout>
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/btn_game_play"
+     android:focusable="true"
+     android:clickable="true"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginBottom="16.0dip"
+     android:src="@drawable/ic_play"
+     android:tint="@android:0106000B"
+     android:layout_marginEnd="8.0dip"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

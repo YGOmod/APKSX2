@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
     // Buttons
     private void makeButtonTouch() {
+        // Play Button
+        FloatingActionButton btn_play = findViewById(R.id.btn_game_play);
+        if(btn_play != null) {
+            btn_play.setOnClickListener(v -> {
+            // TODO
+            });
+        }
         // Game file
         MaterialButton btn_file = findViewById(R.id.btn_file);
         if(btn_file != null) {
