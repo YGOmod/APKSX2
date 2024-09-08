@@ -21,8 +21,6 @@
 #include "soundtouch/source/SoundStretch/WavFile.h"
 #endif
 
-#include <mutex>
-
 static WavOutFile* _new_WavOutFile(const char* destfile)
 {
 	return new WavOutFile(destfile, 48000, 16, 2);
@@ -110,13 +108,13 @@ using namespace Threading;
 bool WavRecordEnabled = false;
 
 static WavOutFile* m_wavrecord = nullptr;
-static std::mutex WavRecordMutex;
+static Mutex WavRecordMutex;
 
 bool RecordStart(const std::string* filename)
 {
 	try
 	{
-		std::unique_lock lock(WavRecordMutex);
+		ScopedLock lock(WavRecordMutex);
 		safe_delete(m_wavrecord);
 		if (filename)
 			m_wavrecord = new WavOutFile(filename->c_str(), 48000, 16, 2);
@@ -139,13 +137,13 @@ bool RecordStart(const std::string* filename)
 void RecordStop()
 {
 	WavRecordEnabled = false;
-	std::unique_lock lock(WavRecordMutex);
+	ScopedLock lock(WavRecordMutex);
 	safe_delete(m_wavrecord);
 }
 
 void RecordWrite(const StereoOut16& sample)
 {
-	std::unique_lock lock(WavRecordMutex);
+	ScopedLock lock(WavRecordMutex);
 	if (m_wavrecord == nullptr)
 		return;
 	m_wavrecord->write((s16*)&sample, 2);

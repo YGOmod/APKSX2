@@ -19,7 +19,7 @@
 #include <wx/tokenzr.h>
 #include "common/Dependencies.h"
 #include "common/SafeArray.h"
-#include "common/AlignedMalloc.h"
+#include "common/ScopedAlloc.h"
 
 #if _WIN32
 #define WX_STR(str) (str.wc_str())
@@ -132,7 +132,7 @@ struct ParsedAssignmentString
 //    accepts Ascii/UTF8 only.
 //
 
-typedef AlignedBuffer<char, 16> CharBufferType;
+typedef ScopedAlignedAlloc<char, 16> CharBufferType;
 // --------------------------------------------------------------------------------------
 //  FastFormatAscii
 // --------------------------------------------------------------------------------------

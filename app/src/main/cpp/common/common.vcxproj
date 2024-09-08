@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(SolutionDir)common\vsprops\BaseProjectConfig.props" />
   <Import Project="$(SolutionDir)common\vsprops\WinSDK.props" />
@@ -126,7 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Align.h" />
-    <ClInclude Include="AlignedMalloc.h" />
     <ClInclude Include="BitCast.h" />
     <ClInclude Include="EmbeddedImage.h" />
     <ClInclude Include="boost_spsc_queue.hpp" />
@@ -140,6 +139,7 @@
     <ClInclude Include="HashCombine.h" />
     <ClInclude Include="MD5Digest.h" />
     <ClInclude Include="ProgressCallback.h" />
+    <ClInclude Include="ScopedAlloc.h" />
     <ClInclude Include="ScopedGuard.h" />
     <ClInclude Include="StringUtil.h" />
     <ClInclude Include="SettingsInterface.h" />

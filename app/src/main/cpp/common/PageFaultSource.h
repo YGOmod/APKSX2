@@ -26,10 +26,7 @@
 
 #include "EventSource.h"
 #include "General.h"
-#include "Assertions.h"
-#include "Dependencies.h"
 #include <atomic>
-#include <mutex>
 
 struct PageFaultInfo
 {
@@ -322,5 +319,6 @@ extern long __stdcall SysPageFaultExceptionFilter(struct _EXCEPTION_POINTERS* ep
 extern void pxInstallSignalHandler();
 extern void _platform_InstallSignalHandler();
 
+#include "Threading.h"
 extern SrcType_PageFault* Source_PageFault;
-extern std::mutex PageFault_Mutex;
+extern Threading::Mutex PageFault_Mutex;

@@ -88,11 +88,11 @@ namespace Vulkan
 		app_info.applicationVersion = VK_MAKE_VERSION(1, 7, 0);
 		app_info.pEngineName = "PCSX2";
 		app_info.engineVersion = VK_MAKE_VERSION(1, 7, 0);
-		if(ANDROID_API_VERSION >= 29) {
-			app_info.apiVersion = VK_API_VERSION_1_1;
-		} else {
-			app_info.apiVersion = VK_API_VERSION_1_0;
-		}
+        if(ANDROID_API_VERSION >= 29) {
+            app_info.apiVersion = VK_API_VERSION_1_1;
+        } else {
+            app_info.apiVersion = VK_API_VERSION_1_0;
+        }
 
 		VkInstanceCreateInfo instance_create_info = {};
 		instance_create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -698,22 +698,22 @@ namespace Vulkan
 			vkGetDeviceQueue(m_device, m_present_queue_family_index, 0, &m_present_queue);
 		}
 		m_spinning_supported = m_spin_queue_family_index != queue_family_count &&
-							   queue_family_properties[m_graphics_queue_family_index].timestampValidBits > 0 &&
-							   m_device_properties.limits.timestampPeriod > 0;
+		                       queue_family_properties[m_graphics_queue_family_index].timestampValidBits > 0 &&
+		                       m_device_properties.limits.timestampPeriod > 0;
 		m_spin_queue_is_graphics_queue = m_spin_queue_family_index == m_graphics_queue_family_index && spin_queue_index == 0;
 
 		m_gpu_timing_supported = (m_device_properties.limits.timestampComputeAndGraphics != 0 &&
-								  queue_family_properties[m_graphics_queue_family_index].timestampValidBits > 0 &&
-								  m_device_properties.limits.timestampPeriod > 0);
+		                          queue_family_properties[m_graphics_queue_family_index].timestampValidBits > 0 &&
+		                          m_device_properties.limits.timestampPeriod > 0);
 		DevCon.WriteLn("GPU timing is %s (TS=%u TS valid bits=%u, TS period=%f)",
 			m_gpu_timing_supported ? "supported" : "not supported",
 			static_cast<u32>(m_device_properties.limits.timestampComputeAndGraphics),
 			queue_family_properties[m_graphics_queue_family_index].timestampValidBits,
 			m_device_properties.limits.timestampPeriod);
 
-		if(ANDROID_API_VERSION >= 29) {
-			ProcessDeviceExtensions();
-		}
+        if(ANDROID_API_VERSION >= 29) {
+            ProcessDeviceExtensions();
+        }
 
 		if (m_spinning_supported)
 		{
@@ -821,11 +821,11 @@ namespace Vulkan
 	bool Context::CreateAllocator()
 	{
 		VmaAllocatorCreateInfo ci = {};
-		if(ANDROID_API_VERSION >= 29) {
-			ci.vulkanApiVersion = VK_API_VERSION_1_1;
-		} else {
-			ci.vulkanApiVersion = VK_API_VERSION_1_0;
-		}
+        if(ANDROID_API_VERSION >= 29) {
+            ci.vulkanApiVersion = VK_API_VERSION_1_1;
+        } else {
+            ci.vulkanApiVersion = VK_API_VERSION_1_0;
+        }
 		ci.flags = VMA_ALLOCATOR_CREATE_EXTERNALLY_SYNCHRONIZED_BIT;
 		ci.physicalDevice = m_physical_device;
 		ci.device = m_device;
