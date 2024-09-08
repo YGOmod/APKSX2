@@ -779,12 +779,18 @@ if(USE_OPENGL)
 		GS/Renderers/OpenGL/GLLoader.cpp
 		GS/Renderers/OpenGL/GLState.cpp
 		GS/Renderers/OpenGL/GSDeviceOGL.cpp
+		GS/Renderers/OpenGL/GSRendererOGL.cpp
+		GS/Renderers/OpenGL/GSShaderOGL.cpp
+		GS/Renderers/OpenGL/GSTextureCacheOGL.cpp
 		GS/Renderers/OpenGL/GSTextureOGL.cpp
 	)
 	list(APPEND pcsx2GSHeaders
 		GS/Renderers/OpenGL/GLLoader.h
 		GS/Renderers/OpenGL/GLState.h
 		GS/Renderers/OpenGL/GSDeviceOGL.h
+		GS/Renderers/OpenGL/GSRendererOGL.h
+		GS/Renderers/OpenGL/GSShaderOGL.h
+		GS/Renderers/OpenGL/GSTextureCacheOGL.h
 		GS/Renderers/OpenGL/GSTextureOGL.h
 		GS/Renderers/OpenGL/GSUniformBufferOGL.h
 	)
