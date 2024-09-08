@@ -18,8 +18,9 @@
 #include "common/Threading.h"
 #include "SaveState.h"
 #include "IopCounters.h"
+#include <mutex>
 
-extern Threading::MutexRecursive mtx_SPU2Status;
+extern std::recursive_mutex mtx_SPU2Status;
 
 enum class PS2Modes
 {
