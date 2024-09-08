@@ -118,7 +118,7 @@ void GSDevice::RestoreAPIState()
 GSTexture* GSDevice::FetchSurface(GSTexture::Type type, int width, int height, int levels, GSTexture::Format format, bool clear, bool prefer_reuse)
 {
 	const GSVector2i size(width, height);
-    const bool prefer_new_texture = (m_features.prefer_new_textures && type == GSTexture::Type::Texture && !prefer_reuse);
+	const bool prefer_new_texture = (m_features.prefer_new_textures && type == GSTexture::Type::Texture && !prefer_reuse);
 
 	GSTexture* t = nullptr;
 	auto fallback = m_pool.end();
