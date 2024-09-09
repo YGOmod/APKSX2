@@ -6,36 +6,23 @@ import android.content.Context;
 import java.lang.ref.WeakReference;
 
 public class MainApplication extends Application {
-    private static WeakReference<BaseActivity> curActivityReference;
+    private static WeakReference<BaseActivity> currentActivityReference;
+    private static Context appContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        curApplicationContext = getApplicationContext();
-    }
-    public static BaseActivity getCurrentActivity() {
-        WeakReference<BaseActivity> activityReference = curActivityReference;
-        return activityReference != null ? activityReference.get() : null;
+        appContext = getApplicationContext();
     }
 
-    public static void setCurrentActivity(BaseActivity newActivity) {
-        WeakReference<BaseActivity> activityReference = curActivityReference;
-        if (activityReference != null) {
-            activityReference.clear();
-            curActivityReference = null;
-        }
-    
-
+    public static void setCurrentActivity(BaseActivity currentActivity) {
+        WeakReference<BaseActivity> newActivity = currentActivityReference;
         if (newActivity != null) {
-            curActivityReference = new WeakReference<>(newActivity);
+            newActivity.clear();
+            currentActivityReference = null;
         }
-    }
-
-    public static void onDestroy() {
-        WeakReference<BaseActivity> activityReference = curActivityReference;
-        if (activityReference != null) {
-            activityReference();
-            curActivityReference = null;
+        if (currentActivity != null) {
+            currentActivityReference = new WeakReference<>(currentActivity);
         }
     }
 }
