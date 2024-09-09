@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.ArrayList;
 
-public class BaseAdapter extends RecyclerView.Adapter<MainViewHolder> {
+public class BaseAdapter extends RecyclerView {
     private final String[] supp_ext = {"iso", "cso", "bin", "chd", "mdf", "nrg", "img"};
 
     public void startGameActivity(String fileName, String dirName) {
