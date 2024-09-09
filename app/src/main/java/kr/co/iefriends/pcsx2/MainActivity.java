@@ -32,8 +32,6 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String m_szGamefile = "";
-
     private HIDDeviceManager mHIDDeviceManager;
     private Thread mEmulationThread = null;
 

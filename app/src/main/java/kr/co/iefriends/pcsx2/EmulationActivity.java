@@ -5,6 +5,8 @@ import android.content.Intent;
 
 public class EmulationActivity extends BaseActivity {
 
+    private String m_szGamefile = "";
+
     public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
     setContentView(R.layout.game_main);
