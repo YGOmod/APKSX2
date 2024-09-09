@@ -31,11 +31,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
-    public final ActivityResultLauncher<Intent> startLocalFilePlay = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<ActivityResult>());
 
-    /*private String m_szGamefile = "";
+    private String m_szGamefile = "";
 
     private HIDDeviceManager mHIDDeviceManager;
     private Thread mEmulationThread = null;
@@ -49,44 +46,310 @@ public class MainActivity extends AppCompatActivity {
                     || _thread_state == Thread.State.WAITING;
         }
         return false;
-    }*/
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.game_main);// TODO 
         setContentView(R.layout.activity_main);
 
         // Default resources
         copyAssetAll(getApplicationContext(), "bios");
         copyAssetAll(getApplicationContext(), "resources");
 
-        NativeApp.initializeOnce(getApplicationContext());
+        Initialize();
 
-        FloatingButtonTouch();
+        makeButtonTouch();
 
-        //setSurfaceView(new SDLSurface(this));
+        setSurfaceView(new SDLSurface(this));
     }
 
     // Buttons
-    private void FloatingButtonTouch() {
+    private void makeButtonTouch() {
         // Play Button
         FloatingActionButton btn_play = findViewById(R.id.btn_game_play);
         if(btn_play != null) {
             btn_play.setOnClickListener(v -> {
-                Intent intent = new Intent("android.intent.action.GET_CONTENT");
-                intent.addFlags(1);
-                intent.putExtra("android.intent.extra.ALLOW_MULTIPLE", false);
-                intent.setType("*/*");
-                startLocalFilePlay.launch(intent);
+            // TODO
             });
         }
+        // Game file
+        MaterialButton btn_file = findViewById(R.id.btn_file);
+        if(btn_file != null) {
+            btn_file.setOnClickListener(v -> {
+                // Test game file
+                File externalFilesDir = getExternalFilesDir(null);
+                if(externalFilesDir != null) {
+                    m_szGamefile = String.format("%s/GradiusV.iso", externalFilesDir.getAbsolutePath());
+                    File _file = new File(m_szGamefile);
+                    if(_file.exists()) {
+                        // File => /storage/emulated/0/Android/data/kr.co.iefriends.pcsx2/files/GradiusV.iso
+                        restartEmuThread();
+                    }
+                }
+
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
+//                intent.setType("*/*");
+//                startActivityResultLocalFileUpload.launch(intent);
+            });
+        }
+
+        // Game save
+        MaterialButton btn_save = findViewById(R.id.btn_save);
+        if(btn_save != null) {
+            btn_save.setOnClickListener(v -> {
+                if(NativeApp.saveStateToSlot(1)) {
+                    // Success
+                } else {
+                    // Failed
+                }
+                NativeApp.resume();
+            });
+        }
+
+        // Game load
+       MaterialButton btn_load = findViewById(R.id.btn_load);
+        if(btn_load != null) {
+            btn_load.setOnClickListener(v -> {
+                if(NativeApp.loadStateFromSlot(1)) {
+                    // Success
+                } else {
+                    // Failed
+                }
+                NativeApp.resume();
+            });
+        }
+
+        //////
+        // RENDERER
+
+        MaterialButton btn_ogl = findViewById(R.id.btn_ogl);
+        if(btn_ogl != null) {
+            btn_ogl.setOnClickListener(v -> {
+                NativeApp.renderGpu(12);
+            });
+        }
+        MaterialButton btn_vulkan = findViewById(R.id.btn_vulkan);
+        if(btn_vulkan != null) {
+            btn_vulkan.setOnClickListener(v -> {
+                NativeApp.renderGpu(14);
+            });
+        }
+        MaterialButton btn_sw = findViewById(R.id.btn_sw);
+        if(btn_sw != null) {
+            btn_sw.setOnClickListener(v -> {
+                NativeApp.renderGpu(13);
+            });
+        }
+
+        //////
+        // PAD
+
+        MaterialButton btn_pad_select = findViewById(R.id.btn_pad_select);
+        if(btn_pad_select != null) {
+            btn_pad_select.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_SELECT);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_start = findViewById(R.id.btn_pad_start);
+        if(btn_pad_start != null) {
+            btn_pad_start.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_START);
+                return true;
+            });
+        }
+
+         MaterialButton btn_pad_a = findViewById(R.id.btn_pad_a);
+        if(btn_pad_a != null) {
+            btn_pad_a.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_A);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_b = findViewById(R.id.btn_pad_b);
+        if(btn_pad_b != null) {
+            btn_pad_b.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_B);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_x = findViewById(R.id.btn_pad_x);
+        if(btn_pad_x != null) {
+            btn_pad_x.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_X);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_y = findViewById(R.id.btn_pad_y);
+        if(btn_pad_y != null) {
+            btn_pad_y.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_Y);
+                return true;
+            });
+        }
+
+        ////
+
+        MaterialButton btn_pad_l1 = findViewById(R.id.btn_pad_l1);
+        if(btn_pad_l1 != null) {
+            btn_pad_l1.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_L1);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_r1 = findViewById(R.id.btn_pad_r1);
+        if(btn_pad_r1 != null) {
+            btn_pad_r1.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_R1);
+                return true;
+            });
+        }
+
+        MaterialButton btn_pad_l2 = findViewById(R.id.btn_pad_l2);
+        if(btn_pad_l2 != null) {
+            btn_pad_l2.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_L2);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_r2 = findViewById(R.id.btn_pad_r2);
+        if(btn_pad_r2 != null) {
+            btn_pad_r2.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_R2);
+                return true;
+            });
+        }
+
+        MaterialButton btn_pad_l3 = findViewById(R.id.btn_pad_l3);
+        if(btn_pad_l3 != null) {
+            btn_pad_l3.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_THUMBL);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_r3 = findViewById(R.id.btn_pad_r3);
+        if(btn_pad_r3 != null) {
+            btn_pad_r3.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_THUMBR);
+                return true;
+            });
+        }
+
+        ////
+
+        final int PAD_L_UP = 110;
+        final int PAD_L_RIGHT = 111;
+        final int PAD_L_DOWN = 112;
+        final int PAD_L_LEFT = 113;
+
+        final int PAD_R_UP = 120;
+        final int PAD_R_RIGHT = 121;
+        final int PAD_R_DOWN = 122;
+        final int PAD_R_LEFT = 123;
+
+        MaterialButton btn_pad_joy_lt = findViewById(R.id.btn_pad_joy_lt);
+        if(btn_pad_joy_lt != null) {
+            btn_pad_joy_lt.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), PAD_L_UP);
+                sendKeyAction(v, event.getAction(), PAD_L_LEFT);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_joy_t = findViewById(R.id.btn_pad_joy_t);
+        if(btn_pad_joy_t != null) {
+            btn_pad_joy_t.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), PAD_L_UP);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_joy_rt = findViewById(R.id.btn_pad_joy_rt);
+        if(btn_pad_joy_rt != null) {
+            btn_pad_joy_rt.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), PAD_L_UP);
+                sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_joy_l = findViewById(R.id.btn_pad_joy_l);
+        if(btn_pad_joy_l != null) {
+            btn_pad_joy_l.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), PAD_L_LEFT);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_joy_r = findViewById(R.id.btn_pad_joy_r);
+        if(btn_pad_joy_r != null) {
+            btn_pad_joy_r.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_joy_lb = findViewById(R.id.btn_pad_joy_lb);
+        if(btn_pad_joy_lb != null) {
+            btn_pad_joy_lb.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), PAD_L_LEFT);
+                sendKeyAction(v, event.getAction(), PAD_L_DOWN);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_joy_b = findViewById(R.id.btn_pad_joy_b);
+        if(btn_pad_joy_b != null) {
+            btn_pad_joy_b.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), PAD_L_DOWN);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_joy_rb = findViewById(R.id.btn_pad_joy_rb);
+        if(btn_pad_joy_rb != null) {
+            btn_pad_joy_rb.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
+                sendKeyAction(v, event.getAction(), PAD_L_DOWN);
+                return true;
+            });
+        }
+
+        ////
+
+        MaterialButton btn_pad_dir_top = findViewById(R.id.btn_pad_dir_top);
+        if(btn_pad_dir_top != null) {
+            btn_pad_dir_top.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_UP);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_dir_bottom = findViewById(R.id.btn_pad_dir_bottom);
+        if(btn_pad_dir_bottom != null) {
+            btn_pad_dir_bottom.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_DOWN);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_dir_left = findViewById(R.id.btn_pad_dir_left);
+        if(btn_pad_dir_left != null) {
+            btn_pad_dir_left.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_LEFT);
+                return true;
+            });
+        }
+        MaterialButton btn_pad_dir_right = findViewById(R.id.btn_pad_dir_right);
+        if(btn_pad_dir_right != null) {
+            btn_pad_dir_right.setOnTouchListener((v, event) -> {
+                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_RIGHT);
+                return true;
+            });
+        }
+    }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
         super.onConfigurationChanged(p_newConfig);
     }
 
-    /*@Override
+    @Override
     protected void onPause() {
         NativeApp.pause();
         super.onPause();
@@ -280,32 +543,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         catch (IOException ignored) {}
-    }
-    @Override
-    public final void onActivityResult(ActivityResult activityResult) {
-        if (activityResult.getResultCode() == -1) {
-            try {
-                Intent data = activityResult.getData();
-                if (result != null) {
-                    String dataString = data.getDataString();
-                    if (TextUtils.isEmpty(dataString)) {
-                        return;
-                    }
-                    runGame(dataString);
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    public synchronized void runGame(String fileName) {
-        try {
-            Context applicationContext = getApplicationContext();
-            Intent intent = new Intent(applicationContext, NativeActivity.class);
-            intent.putExtra("GamePath", fileName);
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
