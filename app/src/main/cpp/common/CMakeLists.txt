@@ -67,7 +67,6 @@ target_sources(common PRIVATE
 target_sources(common PRIVATE
 	sse2neon.h
 	Align.h
-	AlignedMalloc.h
 	Assertions.h
 	boost_spsc_queue.hpp
 	Console.h
@@ -92,6 +91,7 @@ target_sources(common PRIVATE
 	ReadbackSpinManager.h
 	RwMutex.h
 	SafeArray.h
+	ScopedAlloc.h
 	ScopedGuard.h
 	ScopedPtrMT.h
 	SettingsInterface.h
@@ -235,6 +235,11 @@ else()
 		target_link_libraries(common PRIVATE ${WAYLAND_EGL_LIBRARIES})
 		target_compile_definitions(common PUBLIC "VULKAN_USE_WAYLAND=1")
 	endif()
+endif()
+
+if (USE_GCC AND CMAKE_INTERPROCEDURAL_OPTIMIZATION)
+	# GCC LTO doesn't work with asm statements
+	set_source_files_properties(FastJmp.cpp PROPERTIES COMPILE_FLAGS -fno-lto)
 endif()
 
 target_link_libraries(common PRIVATE ${LIBC_LIBRARIES} PUBLIC wxWidgets::all fmt::fmt)
