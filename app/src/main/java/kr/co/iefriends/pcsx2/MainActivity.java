@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.game_main);// TODO 
         setContentView(R.layout.activity_main);
 
         // Default resources
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         if(btn_file != null) {
             btn_file.setOnClickListener(v -> {
                 // Test game file
-                File externalFilesDir = getExternalFilesDir(null);
+                /*File externalFilesDir = getExternalFilesDir(null);
                 if(externalFilesDir != null) {
                     m_szGamefile = String.format("%s/GradiusV.iso", externalFilesDir.getAbsolutePath());
                     File _file = new File(m_szGamefile);
@@ -87,13 +86,13 @@ public class MainActivity extends AppCompatActivity {
                         // File => /storage/emulated/0/Android/data/kr.co.iefriends.pcsx2/files/GradiusV.iso
                         restartEmuThread();
                     }
-                }
+                }*/
 
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
-//                intent.setType("*/*");
-//                startActivityResultLocalFileUpload.launch(intent);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
+                intent.setType("*/*");
+                startActivityResultLocalFileUpload.launch(intent);
             });
         }
 
