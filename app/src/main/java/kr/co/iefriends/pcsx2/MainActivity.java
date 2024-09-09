@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,6 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
+
+    private String m_szGamefile = "";
 
     private HIDDeviceManager mHIDDeviceManager;
     private Thread mEmulationThread = null;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         copyAssetAll(getApplicationContext(), "resources");
 
         Initialize();
+        NativeApp.renderGpu(14); //set default to Vk
 
         makeButtonTouch();
 
@@ -64,13 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Buttons
     private void makeButtonTouch() {
-        // Play Button
-        FloatingActionButton btn_play = findViewById(R.id.btn_game_play);
-        if(btn_play != null) {
-            btn_play.setOnClickListener(v -> {
-            // TODO
-            });
-        }
         // Game file
         MaterialButton btn_file = findViewById(R.id.btn_file);
         if(btn_file != null) {
@@ -570,20 +565,10 @@ public class MainActivity extends AppCompatActivity {
                         if(_intent != null) {
                             m_szGamefile = _intent.getDataString();
                             if(!TextUtils.isEmpty(m_szGamefile)) {
-                                return; //restartEmuThread();
+                                restartEmuThread();
                             }
-                            playFile(m_szGamefile);
                         }
                     } catch (Exception ignored) {}
                 }
             });
-    public synchronized void playFile(String m_szGamefile) {
-        try {
-            Context applicationContext = getApplicationContext();
-            Intent intent = new Intent(applicationContext, EmulationActivity.class);
-            intent.putExtra("GamePath", m_szGamefile);
-            startActivity(intent);
-        } catch (IOException ignored) {
-        }
-    } 
 }
