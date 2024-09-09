@@ -13,3 +13,4 @@ public abstract class BaseActivity extends AppCompatActivity {
       super.onResume();
       MainApplication.setCurrentActivity(this);
    }
+}

@@ -37,4 +37,5 @@ public class MainApplication extends Application {
             activityReference();
             curActivityReference = null;
         }
+    }
 }
