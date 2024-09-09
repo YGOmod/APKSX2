@@ -19,7 +19,7 @@ public class MainApplication extends Application {
         WeakReference<BaseActivity> _newActivity = currentActivityReference;
         if (_newActivity != null) {
             _newActivity.clear();
-            mActivityReference = null;
+            currentActivityReference = null;
         }
         if (newActivity != null) {
             currentActivityReference = new WeakReference<>(newActivity);
