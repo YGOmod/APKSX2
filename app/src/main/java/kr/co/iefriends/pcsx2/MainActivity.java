@@ -572,10 +572,20 @@ public class MainActivity extends AppCompatActivity {
                         if(_intent != null) {
                             m_szGamefile = _intent.getDataString();
                             if(!TextUtils.isEmpty(m_szGamefile)) {
-                                restartEmuThread();
+                                return; //restartEmuThread();
                             }
+                            playFile(m_szGamefile);
                         }
                     } catch (Exception ignored) {}
                 }
             });
+    public synchronized void playFile(String m_szGamefile) {
+        try {
+            Context applicationContext = getApplicationContext();
+            Intent intent = new Intent(applicationContext, EmulationActivity.class);
+            intent.putExtra("GamePath", m_szGamefile);
+            startActivity(intent);
+        } catch (IOException ignored) {
+        }
+    } 
 }
