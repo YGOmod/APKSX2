@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Default resources
-        copyAssetAll(getApplicationContext(), "bios");
-        copyAssetAll(getApplicationContext(), "resources");
+        Helpers.copyAssetAll(getApplicationContext(), "bios");
+        Helpers.copyAssetAll(getApplicationContext(), "resources");
 
         Initialize();
         NativeApp.renderGpu(14); //set default to Vk
@@ -143,14 +143,14 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btn_pad_select = findViewById(R.id.btn_pad_select);
         if(btn_pad_select != null) {
             btn_pad_select.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_SELECT);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_SELECT);
                 return true;
             });
         }
         MaterialButton btn_pad_start = findViewById(R.id.btn_pad_start);
         if(btn_pad_start != null) {
             btn_pad_start.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_START);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_START);
                 return true;
             });
         }
@@ -158,28 +158,28 @@ public class MainActivity extends AppCompatActivity {
          MaterialButton btn_pad_a = findViewById(R.id.btn_pad_a);
         if(btn_pad_a != null) {
             btn_pad_a.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_A);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_A);
                 return true;
             });
         }
         MaterialButton btn_pad_b = findViewById(R.id.btn_pad_b);
         if(btn_pad_b != null) {
             btn_pad_b.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_B);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_B);
                 return true;
             });
         }
         MaterialButton btn_pad_x = findViewById(R.id.btn_pad_x);
         if(btn_pad_x != null) {
             btn_pad_x.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_X);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_X);
                 return true;
             });
         }
         MaterialButton btn_pad_y = findViewById(R.id.btn_pad_y);
         if(btn_pad_y != null) {
             btn_pad_y.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_Y);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_Y);
                 return true;
             });
         }
@@ -189,14 +189,14 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btn_pad_l1 = findViewById(R.id.btn_pad_l1);
         if(btn_pad_l1 != null) {
             btn_pad_l1.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_L1);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_L1);
                 return true;
             });
         }
         MaterialButton btn_pad_r1 = findViewById(R.id.btn_pad_r1);
         if(btn_pad_r1 != null) {
             btn_pad_r1.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_R1);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_R1);
                 return true;
             });
         }
@@ -204,14 +204,14 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btn_pad_l2 = findViewById(R.id.btn_pad_l2);
         if(btn_pad_l2 != null) {
             btn_pad_l2.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_L2);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_L2);
                 return true;
             });
         }
         MaterialButton btn_pad_r2 = findViewById(R.id.btn_pad_r2);
         if(btn_pad_r2 != null) {
             btn_pad_r2.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_R2);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_R2);
                 return true;
             });
         }
@@ -219,14 +219,14 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btn_pad_l3 = findViewById(R.id.btn_pad_l3);
         if(btn_pad_l3 != null) {
             btn_pad_l3.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_THUMBL);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_THUMBL);
                 return true;
             });
         }
         MaterialButton btn_pad_r3 = findViewById(R.id.btn_pad_r3);
         if(btn_pad_r3 != null) {
             btn_pad_r3.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_THUMBR);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_BUTTON_THUMBR);
                 return true;
             });
         }
@@ -246,60 +246,60 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btn_pad_joy_lt = findViewById(R.id.btn_pad_joy_lt);
         if(btn_pad_joy_lt != null) {
             btn_pad_joy_lt.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), PAD_L_UP);
-                sendKeyAction(v, event.getAction(), PAD_L_LEFT);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_UP);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_LEFT);
                 return true;
             });
         }
         MaterialButton btn_pad_joy_t = findViewById(R.id.btn_pad_joy_t);
         if(btn_pad_joy_t != null) {
             btn_pad_joy_t.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), PAD_L_UP);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_UP);
                 return true;
             });
         }
         MaterialButton btn_pad_joy_rt = findViewById(R.id.btn_pad_joy_rt);
         if(btn_pad_joy_rt != null) {
             btn_pad_joy_rt.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), PAD_L_UP);
-                sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_UP);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
                 return true;
             });
         }
         MaterialButton btn_pad_joy_l = findViewById(R.id.btn_pad_joy_l);
         if(btn_pad_joy_l != null) {
             btn_pad_joy_l.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), PAD_L_LEFT);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_LEFT);
                 return true;
             });
         }
         MaterialButton btn_pad_joy_r = findViewById(R.id.btn_pad_joy_r);
         if(btn_pad_joy_r != null) {
             btn_pad_joy_r.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
                 return true;
             });
         }
         MaterialButton btn_pad_joy_lb = findViewById(R.id.btn_pad_joy_lb);
         if(btn_pad_joy_lb != null) {
             btn_pad_joy_lb.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), PAD_L_LEFT);
-                sendKeyAction(v, event.getAction(), PAD_L_DOWN);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_LEFT);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_DOWN);
                 return true;
             });
         }
         MaterialButton btn_pad_joy_b = findViewById(R.id.btn_pad_joy_b);
         if(btn_pad_joy_b != null) {
             btn_pad_joy_b.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), PAD_L_DOWN);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_DOWN);
                 return true;
             });
         }
         MaterialButton btn_pad_joy_rb = findViewById(R.id.btn_pad_joy_rb);
         if(btn_pad_joy_rb != null) {
             btn_pad_joy_rb.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
-                sendKeyAction(v, event.getAction(), PAD_L_DOWN);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_RIGHT);
+                Helpers.sendKeyAction(v, event.getAction(), PAD_L_DOWN);
                 return true;
             });
         }
@@ -309,36 +309,31 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btn_pad_dir_top = findViewById(R.id.btn_pad_dir_top);
         if(btn_pad_dir_top != null) {
             btn_pad_dir_top.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_UP);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_UP);
                 return true;
             });
         }
         MaterialButton btn_pad_dir_bottom = findViewById(R.id.btn_pad_dir_bottom);
         if(btn_pad_dir_bottom != null) {
             btn_pad_dir_bottom.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_DOWN);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_DOWN);
                 return true;
             });
         }
         MaterialButton btn_pad_dir_left = findViewById(R.id.btn_pad_dir_left);
         if(btn_pad_dir_left != null) {
             btn_pad_dir_left.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_LEFT);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_LEFT);
                 return true;
             });
         }
         MaterialButton btn_pad_dir_right = findViewById(R.id.btn_pad_dir_right);
         if(btn_pad_dir_right != null) {
             btn_pad_dir_right.setOnTouchListener((v, event) -> {
-                sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_RIGHT);
+                Helpers.sendKeyAction(v, event.getAction(), KeyEvent.KEYCODE_DPAD_RIGHT);
                 return true;
             });
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
-        super.onConfigurationChanged(p_newConfig);
     }
 
     @Override
@@ -410,6 +405,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
+        super.onConfigurationChanged(p_newConfig);
+    }
+
     public void startEmuThread() {
         if(!isThread()) {
             mEmulationThread = new Thread(() -> NativeApp.runVMThread(m_szGamefile));
@@ -469,74 +469,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyUp(p_keyCode, p_event);
     }
 
-    public static void sendKeyAction(View p_view, int p_action, int p_keycode) {
-        if(p_action == MotionEvent.ACTION_DOWN) {
-            p_view.setPressed(true);
-            int pad_force = 0;
-            if(p_keycode >= 110) {
-                float _abs = 90; // Joystic test value
-                _abs = Math.min(_abs, 100);
-                pad_force = (int) (_abs * 32766.0f / 100);
-            }
-            NativeApp.setPadButton(p_keycode, pad_force, true);
-        } else if(p_action == MotionEvent.ACTION_UP || p_action == MotionEvent.ACTION_CANCEL) {
-            p_view.setPressed(false);
-            NativeApp.setPadButton(p_keycode, 0, false);
-        }
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////
-
-    public static void copyAssetAll(Context p_context, String srcPath) {
-        AssetManager assetMgr = p_context.getAssets();
-        String[] assets = null;
-        try {
-            String destPath = p_context.getExternalFilesDir(null) + File.separator + srcPath;
-            assets = assetMgr.list(srcPath);
-            if(assets != null) {
-                if (assets.length == 0) {
-                    copyFile(p_context, srcPath, destPath);
-                } else {
-                    File dir = new File(destPath);
-                    if (!dir.exists())
-                        dir.mkdir();
-                    for (String element : assets) {
-                        copyAssetAll(p_context, srcPath + File.separator + element);
-                    }
-                }
-            }
-        }
-        catch (IOException ignored) {}
-    }
-
-    public static void copyFile(Context p_context, String srcFile, String destFile) {
-        AssetManager assetMgr = p_context.getAssets();
-
-        InputStream is = null;
-        FileOutputStream os = null;
-        try {
-            is = assetMgr.open(srcFile);
-            boolean _exists = new File(destFile).exists();
-            if(srcFile.contains("shaders")) {
-                _exists = false;
-            }
-            if(!_exists)
-            {
-                os = new FileOutputStream(destFile);
-
-                byte[] buffer = new byte[1024];
-                int read;
-                while ((read = is.read(buffer)) != -1) {
-                    os.write(buffer, 0, read);
-                }
-                is.close();
-                os.flush();
-                os.close();
-            }
-        }
-        catch (IOException ignored) {}
-    }
-
     //////////////////////////////////////////////////////////////////////////////////////////////
     // Call jni
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
@@ -565,7 +497,7 @@ public class MainActivity extends AppCompatActivity {
                         if(_intent != null) {
                             m_szGamefile = _intent.getDataString();
                             if(!TextUtils.isEmpty(m_szGamefile)) {
-                                restartEmuThread();
+                                return;//restartEmuThread();
                             }
                         }
                     } catch (Exception ignored) {}
