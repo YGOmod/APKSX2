@@ -497,7 +497,7 @@ public class MainActivity extends AppCompatActivity {
                         if(_intent != null) {
                             m_szGamefile = _intent.getDataString();
                             if(!TextUtils.isEmpty(m_szGamefile)) {
-                                return;//restartEmuThread();
+                                startEmuThread();//restartEmuThread();
                             }
                         }
                     } catch (Exception ignored) {}
