@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EmulationActivity.updateUi();
 
         // Default resources
         Helpers.copyAssetAll(getApplicationContext(), "bios");
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         if(btn_file != null) {
             btn_file.setOnClickListener(v -> {
                 // Test game file
-                /*File externalFilesDir = getExternalFilesDir(null);
+                File externalFilesDir = getExternalFilesDir(null);
                 if(externalFilesDir != null) {
                     m_szGamefile = String.format("%s/GradiusV.iso", externalFilesDir.getAbsolutePath());
                     File _file = new File(m_szGamefile);
@@ -79,18 +80,18 @@ public class MainActivity extends AppCompatActivity {
                         // File => /storage/emulated/0/Android/data/kr.co.iefriends.pcsx2/files/GradiusV.iso
                         restartEmuThread();
                     }
-                }*/
+                }
 
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                /*Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
-                intent.setType("*/*");
-                startActivityResultLocalFileUpload.launch(intent);
+                intent.setType("*");
+                startActivityResultLocalFileUpload.launch(intent);*/
             });
         }
 
         // Game save
-        MaterialButton btn_save = findViewById(R.id.btn_save);
+        /*MaterialButton btn_save = findViewById(R.id.btn_save);
         if(btn_save != null) {
             btn_save.setOnClickListener(v -> {
                 if(NativeApp.saveStateToSlot(1)) {
@@ -100,10 +101,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 NativeApp.resume();
             });
-        }
+        }*/
 
         // Game load
-       MaterialButton btn_load = findViewById(R.id.btn_load);
+       /*MaterialButton btn_load = findViewById(R.id.btn_load);
         if(btn_load != null) {
             btn_load.setOnClickListener(v -> {
                 if(NativeApp.loadStateFromSlot(1)) {
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 NativeApp.resume();
             });
-        }
+        }*/
 
         //////
         // RENDERER
@@ -350,6 +351,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         NativeApp.resume();
         super.onResume();
+        EmulationActivity.updateUi();
         ////
         if (mHIDDeviceManager != null) {
             mHIDDeviceManager.setFrozen(false);
@@ -408,6 +410,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
         super.onConfigurationChanged(p_newConfig);
+        EmulationActivity.updateUi();
     }
 
     public void startEmuThread() {

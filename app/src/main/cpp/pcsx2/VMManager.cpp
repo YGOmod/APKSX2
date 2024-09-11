@@ -520,15 +520,15 @@ static void ApplyBootParameters(const VMBootParameters& params)
 bool VMManager::Initialize(const VMBootParameters& boot_params)
 {
 	const Common::Timer init_timer;
-    s_state.store(VMState::Initializing, std::memory_order_release);
+	s_state.store(VMState::Initializing, std::memory_order_release);
 
 	ScopedGuard close_state = [] {
-        s_state.store(VMState::Shutdown, std::memory_order_release);
+		s_state.store(VMState::Shutdown, std::memory_order_release);
 	};
 
 	LoadSettings();
 	ApplyBootParameters(boot_params);
-    EmuConfig2.LimiterMode = GetInitialLimiterMode();
+	EmuConfig2.LimiterMode = GetInitialLimiterMode();
 
 #ifdef PCSX2_DEBUG
 	Console.WriteLn("Allocating memory map...");
@@ -547,14 +547,14 @@ bool VMManager::Initialize(const VMBootParameters& boot_params)
 #ifdef PCSX2_DEBUG
 	Console.WriteLn("Opening GS...");
 #endif
-    if (!GetMTGS().WaitForOpen())
-    {
-        // we assume GS is going to report its own error
-        Console.WriteLn("Failed to open GS.");
-        return false;
-    }
+	if (!GetMTGS().WaitForOpen())
+	{
+		// we assume GS is going to report its own error
+		Console.WriteLn("Failed to open GS.");
+		return false;
+	}
 
-    ScopedGuard close_gs = []() { GetMTGS().WaitForClose(); };
+	ScopedGuard close_gs = []() { GetMTGS().WaitForClose(); };
 
 #ifdef PCSX2_DEBUG
 	Console.WriteLn("Opening SPU2...");
@@ -996,9 +996,9 @@ void VMManager::Internal::VSyncOnCPUThread()
 void VMManager::CheckForCPUConfigChanges(const Pcsx2Config& old_config)
 {
 	if (EmuConfig.Cpu == old_config.Cpu &&
-            EmuConfig.Gamefixes == old_config.Gamefixes &&
-            EmuConfig.Speedhacks == old_config.Speedhacks &&
-            EmuConfig.Profiler == old_config.Profiler)
+		EmuConfig.Gamefixes == old_config.Gamefixes &&
+		EmuConfig.Speedhacks == old_config.Speedhacks &&
+		EmuConfig.Profiler == old_config.Profiler)
 	{
 		return;
 	}
@@ -1044,8 +1044,8 @@ void VMManager::CheckForFramerateConfigChanges(const Pcsx2Config& old_config)
 void VMManager::CheckForPatchConfigChanges(const Pcsx2Config& old_config)
 {
 	if (EmuConfig.EnableCheats == old_config.EnableCheats &&
-            EmuConfig.EnableWideScreenPatches == old_config.EnableWideScreenPatches &&
-            EmuConfig.EnablePatches == old_config.EnablePatches)
+		EmuConfig.EnableWideScreenPatches == old_config.EnableWideScreenPatches &&
+		EmuConfig.EnablePatches == old_config.EnablePatches)
 	{
 		return;
 	}
@@ -1168,7 +1168,7 @@ void VMManager::ApplySettings()
 	Console.WriteLn("Applying settings...");
 #endif
 	// if we're running, ensure the threads are synced
-    const bool running = (s_state.load(std::memory_order_acquire) == VMState::Running);
+	const bool running = (s_state.load(std::memory_order_acquire) == VMState::Running);
 	if (running)
 	{
 		if (THREAD_VU1)
