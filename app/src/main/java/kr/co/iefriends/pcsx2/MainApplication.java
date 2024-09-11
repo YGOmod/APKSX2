@@ -25,4 +25,12 @@ public class MainApplication extends Application {
             currentActivityReference = new WeakReference<>(newActivity);
         }
     }
+
+    public static BaseActivity getCurrentActivity() {
+        WeakReference<BaseActivity> _newActivity = currentActivityReference;
+        if (_newActivity != null) {
+            return _newActivity.get();
+        }
+        return null;
+    }
 }

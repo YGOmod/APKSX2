@@ -34,6 +34,29 @@ public class Helpers {
         catch (IOException ignored) {}
     }
 
+    public static void copyAssetAll2(Context p_context, String srcPath) {
+        AssetManager assetMgr = p_context.getAssets();
+        String[] assets = null;
+        try {
+            String format = String.format("%s/%s", p_context.getExternalFilesDir(null), srcPath);
+            assets = assetMgr.list(srcPath);
+            if (assets != null) {
+                if (assets.length == 0) {
+                    copyFile(p_context, srcPath, format);
+                } else {
+                    File dir = new File(format);
+                    if (!dir.exists()) {
+                        dir.mkdir();
+                    }
+                    int length = assets.length;
+                    for (int i = 0; i < length; i++) {
+                        copyAssetAll2(p_context, srcPath + File.separator + assets[i]);
+                    }
+                }
+            } catch (IOException ignored) {}
+        }
+    }
+
     public static void copyFile(Context p_context, String srcFile, String destFile) {
         AssetManager assetMgr = p_context.getAssets();
 

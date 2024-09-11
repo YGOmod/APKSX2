@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         // Default resources
         Helpers.copyAssetAll(getApplicationContext(), "bios");
         Helpers.copyAssetAll(getApplicationContext(), "resources");
+        Helpers.copyAssetAll2(getApplicationContext(), "resources/shaders");
 
         Initialize();
         NativeApp.renderGpu(14); //set default to Vk
