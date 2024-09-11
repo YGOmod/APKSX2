@@ -2,4 +2,8 @@
     <string name="app_name">PCSX2</string>
     <string name="action_search">Search</string>
     <string name="action_switch_view">Switch View</string>
+    <!-- Memory Card -->
+    <string name="memory_card_empty_slot">Empty Slot</string>
+    <string name="memory_card_unknown_file">Unknown File</string>
+    <string name="memory_card_type_folder">Folder</string>
 </resources>

@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EmulationActivity.updateUi();
 
         // Default resources
         Helpers.copyAssetAll(getApplicationContext(), "bios");
@@ -351,7 +350,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         NativeApp.resume();
         super.onResume();
-        EmulationActivity.updateUi();
         ////
         if (mHIDDeviceManager != null) {
             mHIDDeviceManager.setFrozen(false);
@@ -410,7 +408,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
         super.onConfigurationChanged(p_newConfig);
-        EmulationActivity.updateUi();
     }
 
     public void startEmuThread() {
