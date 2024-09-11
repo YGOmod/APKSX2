@@ -53,8 +53,9 @@ public class Helpers {
                         copyAssetAll2(p_context, srcPath + File.separator + assets[i]);
                     }
                 }
-            } catch (IOException ignored) {}
+            }
         }
+        catch (IOException ignored) {}
     }
 
     public static void copyFile(Context p_context, String srcFile, String destFile) {
