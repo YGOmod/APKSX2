@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUi() {
-        View decorView = getWindow().decorView();
+        View decorView = getWindow().getDecorView();
         if (decorView != null) {
             int visibilityFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
