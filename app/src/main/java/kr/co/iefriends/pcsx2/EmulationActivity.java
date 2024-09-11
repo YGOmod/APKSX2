@@ -27,7 +27,7 @@ public class EmulationActivity extends BaseActivity {
         }*/
     }
 
-    private void updateUi() {
+    public void updateUi() {
     View decorView = getWindow().getDecorView();
     if (decorView != null) {
         int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
