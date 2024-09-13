@@ -67,6 +67,7 @@ target_sources(common PRIVATE
 target_sources(common PRIVATE
 	sse2neon.h
 	Align.h
+	AlignedMalloc.h
 	Assertions.h
 	boost_spsc_queue.hpp
 	Console.h
@@ -91,7 +92,6 @@ target_sources(common PRIVATE
 	ReadbackSpinManager.h
 	RwMutex.h
 	SafeArray.h
-	ScopedAlloc.h
 	ScopedGuard.h
 	ScopedPtrMT.h
 	SettingsInterface.h
