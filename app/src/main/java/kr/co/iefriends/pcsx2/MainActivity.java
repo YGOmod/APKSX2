@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Helpers.copyAssetAll2(getApplicationContext(), "resources/shaders");
 
         Initialize();
+
         NativeApp.renderGpu(14); //set default to Vk
 
         makeButtonTouch();

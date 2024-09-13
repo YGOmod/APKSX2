@@ -166,9 +166,9 @@ struct decoder_t
 // are made available to mpeg/vlc modules as globals here:
 // the BP doesn't advance and returns -1 if there is no data to be read
 
-__aligned16 tIPU_BP g_BP;
-static __aligned16 decoder_t decoder;
-static __aligned16 tIPU_cmd ipu_cmd;
+alignas(16) tIPU_BP g_BP;
+alignas(16) static decoder_t decoder;
+alignas(16) static tIPU_cmd ipu_cmd;
 
 #ifdef _MSC_VER
 #define BigEndian(in) _byteswap_ulong(in)
@@ -2507,7 +2507,7 @@ static constexpr std::array<u8, 1024> ComputeClipLUT()
 		ret[i + 384] = (i < 0) ? 0 : ((i > 255) ? 255 : i);
 	return ret;
 }
-static constexpr __aligned16 std::array<u8, 1024> clip_lut = ComputeClipLUT();
+alignas(16) static constexpr std::array<u8, 1024> clip_lut = ComputeClipLUT();
 
 static __fi void BUTTERFLY(int& t0, int& t1, int w0, int w1, int d0, int d1)
 {

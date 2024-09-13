@@ -26,7 +26,7 @@
 using namespace Threading;
 using namespace R5900;
 
-__aligned16 u8 g_RealGSMem[Ps2MemSize::GSregs];
+alignas(16) u8 g_RealGSMem[Ps2MemSize::GSregs];
 static bool s_GSRegistersWritten = false;
 
 void gsSetVideoMode(GS_VideoMode mode)

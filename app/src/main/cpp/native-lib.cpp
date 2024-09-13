@@ -29,7 +29,7 @@ ANativeWindow* s_window = nullptr;
 WindowInfo g_gs_window_info;
 static std::unique_ptr<HostDisplay> s_host_display;
 ////
-__aligned16 static SysMtgsThread s_mtgs_thread;
+alignas(16) static SysMtgsThread s_mtgs_thread;
 SysMtgsThread& GetMTGS() {
     return s_mtgs_thread;
 }

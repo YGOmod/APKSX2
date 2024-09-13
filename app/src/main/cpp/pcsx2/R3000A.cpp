@@ -60,7 +60,7 @@ bool iopEventAction = false;
 
 bool iopEventTestIsActive = false;
 
-__aligned16 psxRegisters psxRegs;
+alignas(16) psxRegisters psxRegs;
 
 void psxReset()
 {

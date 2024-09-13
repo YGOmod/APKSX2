@@ -53,7 +53,7 @@ using namespace Threading;
 //  MTGS Threaded Class Implementation
 // =====================================================================================================
 
-__aligned(32) MTGS_BufferedData RingBuffer;
+alignas(32) MTGS_BufferedData RingBuffer;
 
 
 #ifdef RINGBUF_DEBUG_STACK

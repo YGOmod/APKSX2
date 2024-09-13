@@ -18,7 +18,7 @@
 #include "IPU.h"
 #include "IPU/IPUdma.h"
 
-__aligned16 IPU_Fifo ipu_fifo;
+alignas(16) IPU_Fifo ipu_fifo;
 
 void IPU_Fifo::init()
 {

@@ -299,4 +299,4 @@ static inline u64 MXCSRToFPCR(u32 mxcsr_bits)
 
 #endif
 
-extern __aligned16 x86capabilities x86caps;
+alignas(16) extern x86capabilities x86caps;
