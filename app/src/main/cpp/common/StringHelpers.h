@@ -132,7 +132,7 @@ struct ParsedAssignmentString
 //    accepts Ascii/UTF8 only.
 //
 
-typedef AlignedMalloc<char, 16> CharBufferType;
+typedef AlignedBuffer<char, 16> CharBufferType;
 // --------------------------------------------------------------------------------------
 //  FastFormatAscii
 // --------------------------------------------------------------------------------------
