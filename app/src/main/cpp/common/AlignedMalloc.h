@@ -37,8 +37,10 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 // Safe deallocation macros -- checks pointer validity (non-null) when needed, and sets
 // pointer to null after deallocation.
+
 #define safe_delete(ptr) \
 	((void)(delete (ptr)), (ptr) = NULL)
+
 #define safe_delete_array(ptr) \
 	((void)(delete[](ptr)), (ptr) = NULL)
 
@@ -47,6 +49,7 @@
 #define safe_free(ptr) \
 	((void)(free(ptr), !!0), (ptr) = NULL)
 //((void) (( ( (ptr) != NULL ) && (free( ptr ), !!0) ), (ptr) = NULL))
+
 #define safe_fclose(ptr) \
 	((void)((((ptr) != NULL) && (fclose(ptr), !!0)), (ptr) = NULL))
 
@@ -58,13 +61,8 @@
 
 // aligned_malloc: Implement/declare linux equivalents here!
 #if !defined(_MSC_VER)
-extern void* _aligned_malloc(size_t size, size_t align);
-extern void* pcsx2_aligned_realloc(void* handle, size_t new_size, size_t align, size_t old_size);
-extern void _aligned_free(void* pmem);
-#else
-#define pcsx2_aligned_realloc(handle, new_size, align, old_size) \
-	_aligned_realloc(handle, new_size, align)
-#endif
+extern void* __fastcall _aligned_malloc(size_t size, size_t align);
+extern void* __fastcall pcsx2_aligned_realloc(void* handle, size_t new_size, size_t align, size_t old_size);
 extern void _aligned_free(void* pmem);
 #else
 #define pcsx2_aligned_realloc(handle, new_size, align, old_size) \
@@ -74,8 +72,10 @@ extern void _aligned_free(void* pmem);
 // --------------------------------------------------------------------------------------
 //  pxDoOutOfMemory
 // --------------------------------------------------------------------------------------
+
 typedef void FnType_OutOfMemory(uptr blocksize);
 typedef FnType_OutOfMemory* Fnptr_OutOfMemory;
+
 // This method is meant to be assigned by applications that link against pxWex.  It is called
 // (invoked) prior to most pxWex built-in memory/array classes throwing exceptions, and can be
 // used by an application to remove unneeded memory allocations and/or reduce internal cache
@@ -88,6 +88,7 @@ typedef FnType_OutOfMemory* Fnptr_OutOfMemory;
 // to continue running without crashing or hanging the operating system, etc.
 //
 extern Fnptr_OutOfMemory pxDoOutOfMemory;
+
 
 // --------------------------------------------------------------------------------------
 //  AlignedBuffer
