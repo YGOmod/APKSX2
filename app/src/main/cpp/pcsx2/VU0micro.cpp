@@ -34,7 +34,7 @@ void vu0ResetRegs()
 	vif0Regs.stat.VEW = false;
 }
 
-void vu0ExecMicro(u32 addr) {
+void __fastcall vu0ExecMicro(u32 addr) {
 #ifdef PCSX2_DEBUG
 	VUM_LOG("vu0ExecMicro %x", addr);
 #endif

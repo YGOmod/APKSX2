@@ -1123,7 +1123,7 @@ static __forceinline u16 GetLoWord(u32& src)
 }
 
 template <int CoreIdx, int VoiceIdx, int param>
-static void RegWrite_VoiceParams(u16 value)
+static void __fastcall RegWrite_VoiceParams(u16 value)
 {
 	const int core = CoreIdx;
 	const int voice = VoiceIdx;
@@ -1195,7 +1195,7 @@ static void RegWrite_VoiceParams(u16 value)
 }
 
 template <int CoreIdx, int VoiceIdx, int address>
-static void RegWrite_VoiceAddr(u16 value)
+static void __fastcall RegWrite_VoiceAddr(u16 value)
 {
 	const int core = CoreIdx;
 	const int voice = VoiceIdx;
@@ -1274,7 +1274,7 @@ static void RegWrite_VoiceAddr(u16 value)
 }
 
 template <int CoreIdx, int cAddr>
-static void RegWrite_Core(u16 value)
+static void __fastcall RegWrite_Core(u16 value)
 {
 	const int omem = cAddr;
 	const int core = CoreIdx;
@@ -1591,7 +1591,7 @@ static void RegWrite_Core(u16 value)
 }
 
 template <int CoreIdx, int addr>
-static void RegWrite_CoreExt(u16 value)
+static void __fastcall RegWrite_CoreExt(u16 value)
 {
 	V_Core& thiscore = Cores[CoreIdx];
 	const int core = CoreIdx;
@@ -1667,7 +1667,7 @@ static void RegWrite_CoreExt(u16 value)
 
 
 template <int core, int addr>
-static void RegWrite_Reverb(u16 value)
+static void __fastcall RegWrite_Reverb(u16 value)
 {
 	// Signal to the Reverb code that the effects buffers need to be re-aligned.
 	// This is both simple, efficient, and safe, since we only want to re-align
@@ -1682,19 +1682,19 @@ static void RegWrite_Reverb(u16 value)
 }
 
 template <int addr>
-static void RegWrite_SPDIF(u16 value)
+static void __fastcall RegWrite_SPDIF(u16 value)
 {
 	*(regtable[addr >> 1]) = value;
 	UpdateSpdifMode();
 }
 
 template <int addr>
-static void RegWrite_Raw(u16 value)
+static void __fastcall RegWrite_Raw(u16 value)
 {
 	*(regtable[addr >> 1]) = value;
 }
 
-static void RegWrite_Null(u16 value)
+static void __fastcall RegWrite_Null(u16 value)
 {
 }
 
@@ -1733,7 +1733,7 @@ static void RegWrite_Null(u16 value)
 //  tbl_reg_writes  - Register Write Function Invocation LUT
 // --------------------------------------------------------------------------------------
 
-typedef void RegWriteHandler(u16 value);
+typedef void __fastcall RegWriteHandler(u16 value);
 static RegWriteHandler* const tbl_reg_writes[0x401] =
 	{
 		VoiceParamsCore(0), // 0x000 -> 0x180

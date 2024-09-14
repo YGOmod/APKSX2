@@ -266,8 +266,8 @@ static const s64 _4gb = _1gb * 4;
 #define pxE_dev(english) pxExpandMsg((english))
 
 
-extern const wxChar* pxExpandMsg(const wxChar* message);
-extern const wxChar* pxGetTranslation(const wxChar* message);
+extern const wxChar* __fastcall pxExpandMsg(const wxChar* message);
+extern const wxChar* __fastcall pxGetTranslation(const wxChar* message);
 extern bool pxIsEnglish(int id);
 
 extern wxString fromUTF8(const std::string& str);
@@ -277,4 +277,4 @@ extern wxString fromAscii(const char* src);
 
 #include "common/Assertions.h"
 #include "common/Exceptions.h"
-#include "common/AlignedMalloc.h"
+#include "common/ScopedAlloc.h"

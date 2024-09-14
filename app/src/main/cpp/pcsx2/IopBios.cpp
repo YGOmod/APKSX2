@@ -1006,7 +1006,7 @@ namespace R3000A
 #endif
 	}
 
-	void irxImportLog_rec(u32 import_table, u16 index, const char* funcname)
+	void __fastcall irxImportLog_rec(u32 import_table, u16 index, const char* funcname)
 	{
 		irxImportLog(iopMemReadString(import_table + 12, 8), index, funcname);
 	}

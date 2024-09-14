@@ -40,7 +40,6 @@ private:
 	GLuint m_texture_id; // the texture id
 	GLuint m_fbo_read;
 	bool m_clean;
-	bool m_generate_mipmap;
 
 	// Avoid alignment constrain
 	//GSVector4i m_r;

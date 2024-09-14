@@ -19,7 +19,7 @@
 #include <wx/wfstream.h>
 #include <wx/zipstrm.h>
 #include <future>
-///
+////
 #include "3rdparty/SDL2/src/core/android/SDL_android.h"
 
 bool s_execute_exit;
