@@ -70,15 +70,15 @@ union CP2Data {
 	struct {
 		SVector3D     v0, v1, v2;
 		CBGR          rgb;
-		s32          otz;
-		s32          ir0, ir1, ir2, ir3;
+		s32           otz;
+		s32           ir0, ir1, ir2, ir3;
 		SVector2D     sxy0, sxy1, sxy2, sxyp;
 		SVector2Dz    sz0, sz1, sz2, sz3;
 		CBGR          rgb0, rgb1, rgb2;
-		s32          reserved;
-		s32          mac0, mac1, mac2, mac3;
-		u32 irgb, orgb;
-		s32          lzcs, lzcr;
+		s32           reserved;
+		s32           mac0, mac1, mac2, mac3;
+		u32           irgb, orgb;
+		s32           lzcs, lzcr;
 	} n;
 	u32 r[32];
 };
@@ -86,16 +86,16 @@ union CP2Data {
 union CP2Ctrl {
 	struct {
 		SMatrix3D rMatrix;
-		s32      trX, trY, trZ;
+		s32       trX, trY, trZ;
 		SMatrix3D lMatrix;
-		s32      rbk, gbk, bbk;
+		s32       rbk, gbk, bbk;
 		SMatrix3D cMatrix;
-		s32      rfc, gfc, bfc;
-		s32      ofx, ofy;
-		s32      h;
-		s32      dqa, dqb;
-		s32      zsf3, zsf4;
-		s32      flag;
+		s32       rfc, gfc, bfc;
+		s32       ofx, ofy;
+		s32       h;
+		s32       dqa, dqb;
+		s32       zsf3, zsf4;
+		s32       flag;
 	} n;
 	u32 r[32];
 };
@@ -201,7 +201,7 @@ extern R3000Acpu psxInt;
 extern R3000Acpu psxRec;
 
 extern void psxReset();
-extern void __fastcall psxException(u32 code, u32 step);
+extern void psxException(u32 code, u32 step);
 extern void iopEventTest();
 extern void psxMemReset();
 
@@ -217,6 +217,6 @@ extern void (*psxCP2[64])();
 extern void (*psxCP2BSC[32])();
 
 extern void psxBiosReset();
-extern bool __fastcall psxBiosCall();
+extern bool psxBiosCall();
 
 #endif /* __R3000A_H__ */

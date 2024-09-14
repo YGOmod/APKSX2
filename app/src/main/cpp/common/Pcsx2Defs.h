@@ -122,16 +122,18 @@ static const int __pagesize = PCSX2_PAGESIZE;
 #endif
 
 #define __assume(cond) ((void)0) // GCC has no equivalent for __assume
-#define CALLBACK __attribute__((stdcall))
+// SysV ABI passes vector parameters through registers unconditionally.
+	#ifndef _WIN32
+		#define __vectorcall
+		#define CALLBACK
+	#else
+		#define CALLBACK __attribute__((stdcall))
+	#endif
 
 // Inlining note: GCC needs ((unused)) attributes defined on inlined functions to suppress
 // warnings when a static inlined function isn't used in the scope of a single file (which
 // happens *by design* like all the friggen time >_<)
 
-#ifndef __fastcall
-#define __fastcall __attribute__((fastcall))
-#endif
-#define __vectorcall __fastcall
 #define _inline __inline__ __attribute__((unused))
 #ifdef NDEBUG
 #define __forceinline __attribute__((always_inline, unused))
@@ -167,7 +169,6 @@ static const int __pagesize = PCSX2_PAGESIZE;
 
 #define __ri __releaseinline
 #define __fi __forceinline
-#define __fc __fastcall
 
 typedef unsigned char uint8;
 typedef signed char int8;

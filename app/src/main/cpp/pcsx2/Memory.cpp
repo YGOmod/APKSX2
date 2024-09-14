@@ -210,19 +210,19 @@ void memMapUserMem()
 {
 }
 
-static mem8_t __fastcall nullRead8(u32 mem) {
+static mem8_t nullRead8(u32 mem) {
 #ifdef PCSX2_DEBUG
 	MEM_LOG("Read uninstalled memory at address %08x", mem);
 #endif
 	return 0;
 }
-static mem16_t __fastcall nullRead16(u32 mem) {
+static mem16_t nullRead16(u32 mem) {
 #ifdef PCSX2_DEBUG
 	MEM_LOG("Read uninstalled memory at address %08x", mem);
 #endif
 	return 0;
 }
-static mem32_t __fastcall nullRead32(u32 mem) {
+static mem32_t nullRead32(u32 mem) {
 #ifdef PCSX2_DEBUG
 	MEM_LOG("Read uninstalled memory at address %08x", mem);
 #endif
@@ -240,31 +240,31 @@ static RETURNS_R128 nullRead128(u32 mem) {
 #endif
 	return r128_zero();
 }
-static void __fastcall nullWrite8(u32 mem, mem8_t value)
+static void nullWrite8(u32 mem, mem8_t value)
 {
 #ifdef PCSX2_DEBUG
 	MEM_LOG("Write uninstalled memory at address %08x", mem);
 #endif
 }
-static void __fastcall nullWrite16(u32 mem, mem16_t value)
+static void nullWrite16(u32 mem, mem16_t value)
 {
 #ifdef PCSX2_DEBUG
 	MEM_LOG("Write uninstalled memory at address %08x", mem);
 #endif
 }
-static void __fastcall nullWrite32(u32 mem, mem32_t value)
+static void nullWrite32(u32 mem, mem32_t value)
 {
 #ifdef PCSX2_DEBUG
 	MEM_LOG("Write uninstalled memory at address %08x", mem);
 #endif
 }
-static void __fastcall nullWrite64(u32 mem, const mem64_t *value)
+static void nullWrite64(u32 mem, const mem64_t *value)
 {
 #ifdef PCSX2_DEBUG
 	MEM_LOG("Write uninstalled memory at address %08x", mem);
 #endif
 }
-static void __fastcall nullWrite128(u32 mem, const mem128_t *value)
+static void nullWrite128(u32 mem, const mem128_t *value)
 {
 #ifdef PCSX2_DEBUG
 	MEM_LOG("Write uninstalled memory at address %08x", mem);
@@ -272,7 +272,7 @@ static void __fastcall nullWrite128(u32 mem, const mem128_t *value)
 }
 
 template<int p>
-static mem8_t __fastcall _ext_memRead8 (u32 mem)
+static mem8_t _ext_memRead8 (u32 mem)
 {
 	switch (p)
 	{
@@ -296,7 +296,7 @@ static mem8_t __fastcall _ext_memRead8 (u32 mem)
 }
 
 template<int p>
-static mem16_t __fastcall _ext_memRead16(u32 mem)
+static mem16_t _ext_memRead16(u32 mem)
 {
 	switch (p)
 	{
@@ -330,7 +330,7 @@ static mem16_t __fastcall _ext_memRead16(u32 mem)
 }
 
 template<int p>
-static mem32_t __fastcall _ext_memRead32(u32 mem)
+static mem32_t _ext_memRead32(u32 mem)
 {
 	switch (p)
 	{
@@ -386,7 +386,7 @@ static RETURNS_R128 _ext_memRead128(u32 mem)
 }
 
 template<int p>
-static void __fastcall _ext_memWrite8 (u32 mem, mem8_t  value)
+static void _ext_memWrite8 (u32 mem, mem8_t  value)
 {
 	switch (p) {
 		case 3: // psh4
@@ -406,7 +406,7 @@ static void __fastcall _ext_memWrite8 (u32 mem, mem8_t  value)
 }
 
 template<int p>
-static void __fastcall _ext_memWrite16(u32 mem, mem16_t value)
+static void _ext_memWrite16(u32 mem, mem16_t value)
 {
 	switch (p) {
 		case 5: // ba0
@@ -431,7 +431,7 @@ static void __fastcall _ext_memWrite16(u32 mem, mem16_t value)
 }
 
 template<int p>
-static void __fastcall _ext_memWrite32(u32 mem, mem32_t value)
+static void _ext_memWrite32(u32 mem, mem32_t value)
 {
 	switch (p) {
 		case 6: // gsm
@@ -449,7 +449,7 @@ static void __fastcall _ext_memWrite32(u32 mem, mem32_t value)
 }
 
 template<int p>
-static void __fastcall _ext_memWrite64(u32 mem, const mem64_t* value)
+static void _ext_memWrite64(u32 mem, const mem64_t* value)
 {
 
 	/*switch (p) {
@@ -466,7 +466,7 @@ static void __fastcall _ext_memWrite64(u32 mem, const mem64_t* value)
 }
 
 template<int p>
-static void __fastcall _ext_memWrite128(u32 mem, const mem128_t *value)
+static void _ext_memWrite128(u32 mem, const mem128_t *value)
 {
 	/*switch (p) {
 		//case 1: // hwm
@@ -486,7 +486,7 @@ static void __fastcall _ext_memWrite128(u32 mem, const mem128_t *value)
 #define vtlb_RegisterHandlerTempl1(nam,t) vtlb_RegisterHandler(nam##Read8<t>,nam##Read16<t>,nam##Read32<t>,nam##Read64<t>,nam##Read128<t>, \
 															   nam##Write8<t>,nam##Write16<t>,nam##Write32<t>,nam##Write64<t>,nam##Write128<t>)
 
-typedef void __fastcall ClearFunc_t( u32 addr, u32 qwc );
+typedef void ClearFunc_t( u32 addr, u32 qwc );
 
 template<int vunum> static __fi void ClearVuFunc(u32 addr, u32 size) {
 	if (vunum) CpuVU1->Clear(addr, size);
@@ -494,21 +494,21 @@ template<int vunum> static __fi void ClearVuFunc(u32 addr, u32 size) {
 }
 
 // VU Micro Memory Reads...
-template<int vunum> static mem8_t __fc vuMicroRead8(u32 addr) {
+template<int vunum> static mem8_t vuMicroRead8(u32 addr) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	
 	if (vunum && THREAD_VU1) vu1Thread.WaitVU();
 	return vu->Micro[addr];
 }
-template<int vunum> static mem16_t __fc vuMicroRead16(u32 addr) {
+template<int vunum> static mem16_t vuMicroRead16(u32 addr) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	
 	if (vunum && THREAD_VU1) vu1Thread.WaitVU();
 	return *(u16*)&vu->Micro[addr];
 }
-template<int vunum> static mem32_t __fc vuMicroRead32(u32 addr) {
+template<int vunum> static mem32_t vuMicroRead32(u32 addr) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	
@@ -532,7 +532,7 @@ template<int vunum> static RETURNS_R128 vuMicroRead128(u32 addr) {
 
 // Profiled VU writes: Happen very infrequently, with exception of BIOS initialization (at most twice per
 //   frame in-game, and usually none at all after BIOS), so cpu clears aren't much of a big deal.
-template<int vunum> static void __fc vuMicroWrite8(u32 addr,mem8_t data) {
+template<int vunum> static void vuMicroWrite8(u32 addr,mem8_t data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	
@@ -545,7 +545,7 @@ template<int vunum> static void __fc vuMicroWrite8(u32 addr,mem8_t data) {
 		vu->Micro[addr] =data;
 	}
 }
-template<int vunum> static void __fc vuMicroWrite16(u32 addr, mem16_t data) {
+template<int vunum> static void vuMicroWrite16(u32 addr, mem16_t data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	
@@ -558,7 +558,7 @@ template<int vunum> static void __fc vuMicroWrite16(u32 addr, mem16_t data) {
 		*(u16*)&vu->Micro[addr] =data;
 	}
 }
-template<int vunum> static void __fc vuMicroWrite32(u32 addr, mem32_t data) {
+template<int vunum> static void vuMicroWrite32(u32 addr, mem32_t data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	
@@ -571,7 +571,7 @@ template<int vunum> static void __fc vuMicroWrite32(u32 addr, mem32_t data) {
 		*(u32*)&vu->Micro[addr] =data;
 	}
 }
-template<int vunum> static void __fc vuMicroWrite64(u32 addr, const mem64_t* data) {
+template<int vunum> static void vuMicroWrite64(u32 addr, const mem64_t* data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 
@@ -585,7 +585,7 @@ template<int vunum> static void __fc vuMicroWrite64(u32 addr, const mem64_t* dat
 		*(u64*)&vu->Micro[addr] =data[0];
 	}
 }
-template<int vunum> static void __fc vuMicroWrite128(u32 addr, const mem128_t* data) {
+template<int vunum> static void vuMicroWrite128(u32 addr, const mem128_t* data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 
@@ -600,19 +600,19 @@ template<int vunum> static void __fc vuMicroWrite128(u32 addr, const mem128_t* d
 }
 
 // VU Data Memory Reads...
-template<int vunum> static mem8_t __fc vuDataRead8(u32 addr) {
+template<int vunum> static mem8_t vuDataRead8(u32 addr) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	if (vunum && THREAD_VU1) vu1Thread.WaitVU();
 	return vu->Mem[addr];
 }
-template<int vunum> static mem16_t __fc vuDataRead16(u32 addr) {
+template<int vunum> static mem16_t vuDataRead16(u32 addr) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	if (vunum && THREAD_VU1) vu1Thread.WaitVU();
 	return *(u16*)&vu->Mem[addr];
 }
-template<int vunum> static mem32_t __fc vuDataRead32(u32 addr) {
+template<int vunum> static mem32_t vuDataRead32(u32 addr) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	if (vunum && THREAD_VU1) vu1Thread.WaitVU();
@@ -632,7 +632,7 @@ template<int vunum> static RETURNS_R128 vuDataRead128(u32 addr) {
 }
 
 // VU Data Memory Writes...
-template<int vunum> static void __fc vuDataWrite8(u32 addr, mem8_t data) {
+template<int vunum> static void vuDataWrite8(u32 addr, mem8_t data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	if (vunum && THREAD_VU1) {
@@ -641,7 +641,7 @@ template<int vunum> static void __fc vuDataWrite8(u32 addr, mem8_t data) {
 	}
 	vu->Mem[addr] = data;
 }
-template<int vunum> static void __fc vuDataWrite16(u32 addr, mem16_t data) {
+template<int vunum> static void vuDataWrite16(u32 addr, mem16_t data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	if (vunum && THREAD_VU1) {
@@ -650,7 +650,7 @@ template<int vunum> static void __fc vuDataWrite16(u32 addr, mem16_t data) {
 	}
 	*(u16*)&vu->Mem[addr] = data;
 }
-template<int vunum> static void __fc vuDataWrite32(u32 addr, mem32_t data) {
+template<int vunum> static void vuDataWrite32(u32 addr, mem32_t data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	if (vunum && THREAD_VU1) {
@@ -659,7 +659,7 @@ template<int vunum> static void __fc vuDataWrite32(u32 addr, mem32_t data) {
 	}
 	*(u32*)&vu->Mem[addr] = data;
 }
-template<int vunum> static void __fc vuDataWrite64(u32 addr, const mem64_t* data) {
+template<int vunum> static void vuDataWrite64(u32 addr, const mem64_t* data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	if (vunum && THREAD_VU1) {
@@ -668,7 +668,7 @@ template<int vunum> static void __fc vuDataWrite64(u32 addr, const mem64_t* data
 	}
 	*(u64*)&vu->Mem[addr] = data[0];
 }
-template<int vunum> static void __fc vuDataWrite128(u32 addr, const mem128_t* data) {
+template<int vunum> static void vuDataWrite128(u32 addr, const mem128_t* data) {
 	VURegs* vu = vunum ?  &VU1 :  &VU0;
 	addr      &= vunum ? 0x3fff: 0xfff;
 	if (vunum && THREAD_VU1) {

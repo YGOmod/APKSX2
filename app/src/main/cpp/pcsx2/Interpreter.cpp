@@ -203,7 +203,7 @@ static __fi void _doBranch_shared(u32 tar)
 	}
 }
 
-static void __fastcall doBranch( u32 target )
+static void doBranch( u32 target )
 {
 	_doBranch_shared( target );
 	cpuRegs.cycle += cpuBlockCycles >> 3;
@@ -211,7 +211,7 @@ static void __fastcall doBranch( u32 target )
 	intEventTest();
 }
 
-void __fastcall intDoBranch(u32 target)
+void intDoBranch(u32 target)
 {
 	//Console.WriteLn("Interpreter Branch ");
 	_doBranch_shared( target );
