@@ -19,7 +19,8 @@
 #include <wx/wfstream.h>
 #include <wx/zipstrm.h>
 #include <future>
-
+///
+#include "3rdparty/SDL2/src/core/android/SDL_android.h"
 
 bool s_execute_exit;
 int s_window_width = 0;
@@ -412,6 +413,19 @@ std::optional<u32> InputManager::ConvertHostKeyboardStringToCode(const std::stri
     return std::nullopt;
 }
 
+int FileSystem::OpenFDFileContent(const char* filename)
+{
+    auto *env = static_cast<JNIEnv *>(SDL_AndroidGetJNIEnv());
+    if(env == nullptr) {
+        return -1;
+    }
+    jclass NativeApp = env->FindClass("kr/co/iefriends/pcsx2/NativeApp");
+    jmethodID openContentUri = env->GetStaticMethodID(NativeApp, "openContentUri", "(Ljava/lang/String;)I");
+
+    jstring j_filename = env->NewStringUTF(filename);
+    int fd = env->CallStaticIntMethod(NativeApp, openContentUri, j_filename);
+    return fd;
+}
 
 extern "C"
 JNIEXPORT jboolean JNICALL

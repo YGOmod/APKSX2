@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         if(btn_file != null) {
             btn_file.setOnClickListener(v -> {
                 // Test game file
-                File externalFilesDir = getExternalFilesDir(null);
+                /*File externalFilesDir = getExternalFilesDir(null);
                 if(externalFilesDir != null) {
                     m_szGamefile = String.format("%s/GradiusV.iso", externalFilesDir.getAbsolutePath());
                     File _file = new File(m_szGamefile);
@@ -82,13 +82,19 @@ public class MainActivity extends AppCompatActivity {
                         // File => /storage/emulated/0/Android/data/kr.co.iefriends.pcsx2/files/GradiusV.iso
                         restartEmuThread();
                     }
-                }
+                }*/
 
                 /*Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
                 intent.setType("*");
                 startActivityResultLocalFileUpload.launch(intent);*/
+                
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
+                intent.setType("*/*");
+                startActivityResultLocalFilePlay.launch(intent);
             });
         }
 
@@ -409,6 +415,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public final ActivityResultLauncher<Intent> startActivityResultLocalFilePlay = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == Activity.RESULT_OK) {
+                    try {
+                        Intent _intent = result.getData();
+                        if(_intent != null) {
+                            m_szGamefile = _intent.getDataString();
+                            if(!TextUtils.isEmpty(m_szGamefile)) {
+                                restartEmuThread();
+                            }
+                        }
+                    } catch (Exception ignored) {}
+                }
+            });
+            
     @Override
     public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
         super.onConfigurationChanged(p_newConfig);
@@ -492,39 +514,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyUp(p_keyCode, p_event);
     }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    // Call jni
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    public int openContentUri(String uriString, String mode) {
-        Context _context = getApplicationContext();
-        if(_context == null) return -1;
-
-        try {
-            Uri uri = Uri.parse(uriString);
-            ParcelFileDescriptor filePfd = _context.getContentResolver().openFileDescriptor(uri, mode);
-            if (filePfd == null) {
-                return -1;
-            }
-            return filePfd.detachFd();  // Take ownership of the fd.
-        } catch (Exception e) {
-            return -1;
-        }
-    }
-
-    public final ActivityResultLauncher<Intent> startActivityResultLocalFileUpload = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if(result.getResultCode() == Activity.RESULT_OK) {
-                    try {
-                        Intent _intent = result.getData();
-                        if(_intent != null) {
-                            m_szGamefile = _intent.getDataString();
-                            if(!TextUtils.isEmpty(m_szGamefile)) {
-                                restartEmuThread();
-                            }
-                        }
-                    } catch (Exception ignored) {}
-                }
-            });
 }

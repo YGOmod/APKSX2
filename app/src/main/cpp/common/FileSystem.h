@@ -137,6 +137,7 @@ namespace FileSystem
 	s64 FSize64(std::FILE* fp);
 
 	int OpenFDFile(const char* filename, int flags, int mode);
+	int OpenFDFileContent(const char* filename);
 
 	std::optional<std::vector<u8>> ReadBinaryFile(const char* filename);
 	std::optional<std::vector<u8>> ReadBinaryFile(std::FILE* fp);
