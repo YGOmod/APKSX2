@@ -38,26 +38,6 @@ public class NativeApp {
         initialize(externalFilesDir.getAbsolutePath(), android.os.Build.VERSION.SDK_INT);
     }
 
-    public static int openContentUri(String uriString) {
-    BaseActivity currentActivity = MainApplication.getCurrentActivity();
-    if (currentActivity != null) {
-        try {
-            ParcelFileDescriptor fileDescriptor = currentActivity
-                    .getApplication()
-                    .getContentResolver()
-                    .openFileDescriptor(Uri.parse(uriString), "r");
-            if (fileDescriptor != null) {
-                return fileDescriptor.detachFd();
-            }
-            return -1;
-        } catch (IOException ignored) {
-            return -1;
-        }
-    }
-    return -1;
-    }
-
-
     public static native void initialize(String path, int apiVer);
     public static native String getGameTitle(String path);
     public static native String getGameSerial();
