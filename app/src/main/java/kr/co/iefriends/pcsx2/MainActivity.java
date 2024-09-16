@@ -357,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
                         if(_intent != null) {
                             m_szGamefile = _intent.getDataString();
                             if(!TextUtils.isEmpty(m_szGamefile)) {
-                                startLocalFile();
+                                startLocalFile(m_szGameFile);
                             }
                         }
                     } catch (Exception ignored) {}
