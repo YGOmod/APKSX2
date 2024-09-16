@@ -452,11 +452,11 @@ struct alignas(16) GSHWDrawConfig
 #pragma pack(pop)
 	struct alignas(16) VSConstantBuffer
 	{
-		GSVector2 vertex_scale;
-		GSVector2 vertex_offset;
-		GSVector2 texture_scale;
-		GSVector2 texture_offset;
-		GSVector2 point_size;
+		GSVector2  vertex_scale;
+		GSVector2  vertex_offset;
+		GSVector2  texture_scale;
+		GSVector2  texture_offset;
+		GSVector2  point_size;
 		GSVector2i max_depth;
 		__fi VSConstantBuffer()
 		{
@@ -490,19 +490,19 @@ struct alignas(16) GSHWDrawConfig
 	};
 	struct alignas(16) PSConstantBuffer
 	{
-		GSVector4 FogColor_AREF;
-		GSVector4 WH;
-		GSVector4 TA_MaxDepth_Af;
+		GSVector4  FogColor_AREF;
+		GSVector4  WH;
+		GSVector4  TA_MaxDepth_Af;
 		GSVector4i MskFix;
 		GSVector4i FbMask;
 
-		GSVector4 HalfTexel;
-		GSVector4 MinMax;
+		GSVector4  HalfTexel;
+		GSVector4  MinMax;
 		GSVector4i ChannelShuffle;
-		GSVector2 TCOffsetHack;
-		GSVector2 STScale;
+		GSVector2  TCOffsetHack;
+		GSVector2  STScale;
 
-		GSVector4 DitherMatrix[4];
+		GSVector4  DitherMatrix[4];
 
 		__fi PSConstantBuffer()
 		{

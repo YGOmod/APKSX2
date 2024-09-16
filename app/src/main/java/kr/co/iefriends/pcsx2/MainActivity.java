@@ -58,10 +58,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Default resources
-        copyAssetAll(getApplicationContext(), "bios");
+        //copyAssetAll(getApplicationContext(), "bios");
         copyAssetAll(getApplicationContext(), "resources");
 
         Initialize();
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            this.m_szGamefile = intent.getStringExtra("GamePath");
+        } else {
+            this.m_szGamefile = "";
+        }
 
         makeButtonTouch();
 
@@ -350,12 +357,22 @@ public class MainActivity extends AppCompatActivity {
                         if(_intent != null) {
                             m_szGamefile = _intent.getDataString();
                             if(!TextUtils.isEmpty(m_szGamefile)) {
-                                restartEmuThread();
+                                startLocalFile();
                             }
                         }
                     } catch (Exception ignored) {}
                 }
             });
+
+    public synchronized void startLocalFile(String localFile) {
+        try {
+            Context applicationContext = getApplicationContext();
+            copyAssetAll(applicationContext, "bios");
+            Intent intent = new Intent(applicationContext, MainActivity.class);
+            intent.putExtra("GamePath", localFile);
+            startActivity(intent);
+        } catch (Exception ignored) {}
+    }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
