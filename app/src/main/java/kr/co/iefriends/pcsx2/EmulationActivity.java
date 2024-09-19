@@ -28,8 +28,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.Thread;
 
-public class MainActivity extends AppCompatActivity {
+public class EmulationActivity extends BaseActivity {
 
     // Used to load the 'pcsx2' library on application startup.
     static {

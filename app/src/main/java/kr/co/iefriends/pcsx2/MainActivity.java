@@ -1,11 +1,25 @@
 package kr.co.iefriends.pcsx2;
 
 import android.os.Bundle;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.View;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class EmulationActivity extends BaseActivity {
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class MainActivity extends BaseActivity {
 
     public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
@@ -56,6 +70,10 @@ public class EmulationActivity extends BaseActivity {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void onConfigurationChanged(Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+    }
 
     public static void copyAssetAll(Context p_context, String srcPath) {
         AssetManager assetMgr = p_context.getAssets();
