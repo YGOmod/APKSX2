@@ -1,5 +1,7 @@
 package kr.co.iefriends.pcsx2;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +10,11 @@ import android.content.res.Configuration;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
