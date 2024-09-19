@@ -12,9 +12,9 @@ static void byteReverse(unsigned char* buf, unsigned longs)
   u32 t;
   do
   {
-    t = (u32)((unsigned)buf[3] << 8 | buf[2]) << 16 | ((unsigned)buf[1] << 8 | buf[0]);
-    *(u32*)buf = t;
-    buf += 4;
+	t = (u32)((unsigned)buf[3] << 8 | buf[2]) << 16 | ((unsigned)buf[1] << 8 | buf[0]);
+	*(u32*)buf = t;
+	buf += 4;
   } while (--longs);
 }
 #endif
@@ -144,7 +144,7 @@ void MD5Digest::Update(const void* pData, u32 cbData)
 
   t = this->bits[0];
   if ((this->bits[0] = t + ((u32)cbData << 3)) < t)
-    this->bits[1]++; /* Carry from low to high */
+	this->bits[1]++; /* Carry from low to high */
   this->bits[1] += cbData >> 29;
 
   t = (t >> 3) & 0x3f; /* Bytes already in shsInfo->data */
@@ -153,29 +153,29 @@ void MD5Digest::Update(const void* pData, u32 cbData)
 
   if (t)
   {
-    u8* p = (u8*)this->in + t;
+	u8* p = (u8*)this->in + t;
 
-    t = 64 - t;
-    if (cbData < t)
-    {
-      std::memcpy(p, pByteData, cbData);
-      return;
-    }
-    std::memcpy(p, pByteData, t);
-    byteReverse(this->in, 16);
-    MD5Transform(this->buf, (u32*)this->in);
-    pByteData += t;
-    cbData -= t;
+	t = 64 - t;
+	if (cbData < t)
+	{
+	  std::memcpy(p, pByteData, cbData);
+	  return;
+	}
+	std::memcpy(p, pByteData, t);
+	byteReverse(this->in, 16);
+	MD5Transform(this->buf, (u32*)this->in);
+	pByteData += t;
+	cbData -= t;
   }
   /* Process data in 64-byte chunks */
 
   while (cbData >= 64)
   {
-    std::memcpy(this->in, pByteData, 64);
-    byteReverse(this->in, 16);
-    MD5Transform(this->buf, (u32*)this->in);
-    pByteData += 64;
-    cbData -= 64;
+	std::memcpy(this->in, pByteData, 64);
+	byteReverse(this->in, 16);
+	MD5Transform(this->buf, (u32*)this->in);
+	pByteData += 64;
+	cbData -= 64;
   }
 
   /* Handle any remaining bytes of data. */
@@ -192,7 +192,7 @@ void MD5Digest::Final(u8 Digest[16])
   count = (this->bits[0] >> 3) & 0x3F;
 
   /* Set the first char of padding to 0x80.  This is safe since there is
-     always at least one byte free */
+	 always at least one byte free */
   p = this->in + count;
   *p++ = 0x80;
 
@@ -202,18 +202,18 @@ void MD5Digest::Final(u8 Digest[16])
   /* Pad out to 56 mod 64 */
   if (count < 8)
   {
-    /* Two lots of padding:  Pad the first block to 64 bytes */
-    std::memset(p, 0, count);
-    byteReverse(this->in, 16);
-    MD5Transform(this->buf, (u32*)this->in);
+	/* Two lots of padding:  Pad the first block to 64 bytes */
+	std::memset(p, 0, count);
+	byteReverse(this->in, 16);
+	MD5Transform(this->buf, (u32*)this->in);
 
-    /* Now fill the next block with 56 bytes */
-    std::memset(this->in, 0, 56);
+	/* Now fill the next block with 56 bytes */
+	std::memset(this->in, 0, 56);
   }
   else
   {
-    /* Pad block to 56 bytes */
-    std::memset(p, 0, count - 8);
+	/* Pad block to 56 bytes */
+	std::memset(p, 0, count - 8);
   }
   byteReverse(this->in, 14);
 

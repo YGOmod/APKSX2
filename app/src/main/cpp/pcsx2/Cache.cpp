@@ -71,13 +71,13 @@ namespace
 			return (rawValue & (DIRTY_FLAG | VALID_FLAG)) == (DIRTY_FLAG | VALID_FLAG);
 		}
 
-		void setValid()  { rawValue |= VALID_FLAG; }
-		void setDirty()  { rawValue |= DIRTY_FLAG; }
-		void setLocked() { rawValue |= LOCK_FLAG; }
+		void setValid()    { rawValue |= VALID_FLAG; }
+		void setDirty()    { rawValue |= DIRTY_FLAG; }
+		void setLocked()   { rawValue |= LOCK_FLAG; }
 		void clearValid()  { rawValue &= ~VALID_FLAG; }
 		void clearDirty()  { rawValue &= ~DIRTY_FLAG; }
 		void clearLocked() { rawValue &= ~LOCK_FLAG; }
-		void toggleLRF() { rawValue ^= LRF_FLAG; }
+		void toggleLRF()   { rawValue ^= LRF_FLAG; }
 
 		uptr addr() const { return rawValue & ~ALL_FLAGS; }
 

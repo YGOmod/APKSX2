@@ -92,7 +92,7 @@ const char* GameList::RegionToString(Region region)
 		{"NTSC-B", "NTSC-C", "NTSC-HK", "NTSC-J", "NTSC-K", "NTSC-T", "NTSC-U",
 		 "Other",
 		 "PAL-A", "PAL-AF", "PAL-AU", "PAL-BE", "PAL-E", "PAL-F", "PAL-FI", "PAL-G", "PAL-GR", "PAL-I", "PAL-IN", "PAL-M", "PAL-NL", "PAL-NO", "PAL-P", "PAL-R", "PAL-S", "PAL-SC", "PAL-SW", "PAL-SWI", "PAL-UK"}};
-		
+
 	return names[static_cast<int>(region)];
 }
 
@@ -101,13 +101,13 @@ const char* GameList::EntryCompatibilityRatingToString(CompatibilityRating ratin
 	// clang-format off
 	switch (rating)
 	{
-	case CompatibilityRating::Unknown: return "Unknown";
-	case CompatibilityRating::Nothing: return "Nothing";
-	case CompatibilityRating::Intro: return "Intro";
-	case CompatibilityRating::Menu: return "Menu";
-	case CompatibilityRating::InGame: return "InGame";
+	case CompatibilityRating::Unknown:  return "Unknown";
+	case CompatibilityRating::Nothing:  return "Nothing";
+	case CompatibilityRating::Intro:    return "Intro";
+	case CompatibilityRating::Menu:     return "Menu";
+	case CompatibilityRating::InGame:   return "InGame";
 	case CompatibilityRating::Playable: return "Playable";
-	case CompatibilityRating::Perfect: return "Perfect";
+	case CompatibilityRating::Perfect:  return "Perfect";
 	default: return "";
 	}
 	// clang-format on

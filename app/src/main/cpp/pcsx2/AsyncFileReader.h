@@ -41,10 +41,10 @@ public:
 
 	virtual bool Open(std::string fileName)=0;
 
-	virtual int ReadSync(void* pBuffer, uint sector, uint count)=0;
+	virtual int  ReadSync(void* pBuffer, uint sector, uint count)=0;
 
 	virtual void BeginRead(void* pBuffer, uint sector, uint count)=0;
-	virtual int FinishRead(void)=0;
+	virtual int  FinishRead(void)=0;
 	virtual void CancelRead(void)=0;
 
 	virtual void Close(void)=0;

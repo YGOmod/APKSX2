@@ -85,7 +85,7 @@ namespace GameList
 		std::string path;
 		std::string serial;
 		std::string title;
-		u64 total_size = 0;
+		u64         total_size = 0;
 		std::time_t last_modified_time = 0;
 
 		u32 crc = 0;

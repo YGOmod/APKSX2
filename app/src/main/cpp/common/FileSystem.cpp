@@ -1456,11 +1456,11 @@ bool FileSystem::CreateDirectoryPath(const char* path, bool recursive)
 
 bool FileSystem::EnsureDirectoryExists(const char* path, bool recursive)
 {
-    if (FileSystem::DirectoryExists(path))
-        return true;
+	if (FileSystem::DirectoryExists(path))
+		return true;
 
-    // if it fails to create, we're not going to be able to use it anyway
-    return FileSystem::CreateDirectoryPath(path, recursive);
+	// if it fails to create, we're not going to be able to use it anyway
+	return FileSystem::CreateDirectoryPath(path, recursive);
 }
 
 bool FileSystem::DeleteFilePath(const char* path)

@@ -4,17 +4,17 @@
 
 enum LOGLEVEL
 {
-    LOGLEVEL_NONE = 0,    // Silences all log traffic
-    LOGLEVEL_ERROR = 1,   // "ErrorPrint"
-    LOGLEVEL_WARNING = 2, // "WarningPrint"
-    LOGLEVEL_PERF = 3,    // "PerfPrint"
-    LOGLEVEL_INFO = 4,    // "InfoPrint"
-    LOGLEVEL_VERBOSE = 5, // "VerbosePrint"
-    LOGLEVEL_DEV = 6,     // "DevPrint"
-    LOGLEVEL_PROFILE = 7, // "ProfilePrint"
-    LOGLEVEL_DEBUG = 8,   // "DebugPrint"
-    LOGLEVEL_TRACE = 9,   // "TracePrint"
-    LOGLEVEL_COUNT = 10
+	LOGLEVEL_NONE = 0,    // Silences all log traffic
+	LOGLEVEL_ERROR = 1,   // "ErrorPrint"
+	LOGLEVEL_WARNING = 2, // "WarningPrint"
+	LOGLEVEL_PERF = 3,    // "PerfPrint"
+	LOGLEVEL_INFO = 4,    // "InfoPrint"
+	LOGLEVEL_VERBOSE = 5, // "VerbosePrint"
+	LOGLEVEL_DEV = 6,     // "DevPrint"
+	LOGLEVEL_PROFILE = 7, // "ProfilePrint"
+	LOGLEVEL_DEBUG = 8,   // "DebugPrint"
+	LOGLEVEL_TRACE = 9,   // "TracePrint"
+	LOGLEVEL_COUNT = 10
 };
 
 namespace Log {
@@ -24,41 +24,41 @@ namespace Log {
 #ifdef _countof
 #define countof _countof
 #else
-    template<typename T, size_t N>
-    char (&__countof_ArraySizeHelper(T (&array)[N]))[N];
+	template<typename T, size_t N>
+	char (&__countof_ArraySizeHelper(T (&array)[N]))[N];
 #define countof(array) (sizeof(__countof_ArraySizeHelper(array)))
 #endif
 #endif
 
 // log message callback type
-    using CallbackFunctionType = void (*)(void* pUserParam, const char* channelName, const char* functionName,
+	using CallbackFunctionType = void (*)(void* pUserParam, const char* channelName, const char* functionName,
                                           LOGLEVEL level, const char* message);
 
 // registers a log callback
-    void RegisterCallback(CallbackFunctionType callbackFunction, void* pUserParam);
+	void RegisterCallback(CallbackFunctionType callbackFunction, void* pUserParam);
 
 // unregisters a log callback
-    void UnregisterCallback(CallbackFunctionType callbackFunction, void* pUserParam);
+	void UnregisterCallback(CallbackFunctionType callbackFunction, void* pUserParam);
 
 // adds a standard console output
-    bool IsConsoleOutputEnabled();
-    void SetConsoleOutputParams(bool enabled, const char* channelFilter = nullptr, LOGLEVEL levelFilter = LOGLEVEL_TRACE);
+	bool IsConsoleOutputEnabled();
+	void SetConsoleOutputParams(bool enabled, const char* channelFilter = nullptr, LOGLEVEL levelFilter = LOGLEVEL_TRACE);
 
 // adds a debug console output [win32/android only]
-    bool IsDebugOutputEnabled();
-    void SetDebugOutputParams(bool enabled, const char* channelFilter = nullptr, LOGLEVEL levelFilter = LOGLEVEL_TRACE);
+	bool IsDebugOutputEnabled();
+	void SetDebugOutputParams(bool enabled, const char* channelFilter = nullptr, LOGLEVEL levelFilter = LOGLEVEL_TRACE);
 
 // adds a file output
-    void SetFileOutputParams(bool enabled, const char* filename, bool timestamps = true,
+	void SetFileOutputParams(bool enabled, const char* filename, bool timestamps = true,
                              const char* channelFilter = nullptr, LOGLEVEL levelFilter = LOGLEVEL_TRACE);
 
 // Sets global filtering level, messages below this level won't be sent to any of the logging sinks.
-    void SetFilterLevel(LOGLEVEL level);
+	void SetFilterLevel(LOGLEVEL level);
 
 // writes a message to the log
-    void Write(const char* channelName, const char* functionName, LOGLEVEL level, const char* message);
-    void Writef(const char* channelName, const char* functionName, LOGLEVEL level, const char* format, ...);
-    void Writev(const char* channelName, const char* functionName, LOGLEVEL level, const char* format, va_list ap);
+	void Write(const char* channelName, const char* functionName, LOGLEVEL level, const char* message);
+	void Writef(const char* channelName, const char* functionName, LOGLEVEL level, const char* format, ...);
+	void Writev(const char* channelName, const char* functionName, LOGLEVEL level, const char* format, va_list ap);
 } // namespace Log
 
 // log wrappers

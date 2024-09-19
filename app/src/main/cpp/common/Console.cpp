@@ -88,7 +88,7 @@ void MSW_OutputDebugString(const wxString& text)
 	fflush(stdout);
 #elif defined(__ANDROID__)
 #ifdef PCSX2_DEBUG
-    __android_log_print(ANDROID_LOG_DEBUG, "NDK_PCSX2", text.utf8_str());
+	__android_log_print(ANDROID_LOG_DEBUG, "NDK_PCSX2", text.utf8_str());
 #endif
 #else
 	fputs(text.utf8_str(), stdout_fp);
