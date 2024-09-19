@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity {
                     try {
                         Intent _intent = result.getData();
                         if(_intent != null) {
-                            m_szGamefile = _intent.getDataString();
+                            String m_szGamefile = _intent.getDataString();
                             if(!TextUtils.isEmpty(m_szGamefile)) {
                                 startLocalFile(m_szGamefile);
                             }
