@@ -32,11 +32,6 @@ import java.lang.Thread;
 
 public class EmulationActivity extends BaseActivity {
 
-    // Used to load the 'pcsx2' library on application startup.
-    static {
-        System.loadLibrary("emucore");
-    }
-
     private String m_szGamefile = "";
 
     private HIDDeviceManager mHIDDeviceManager;
@@ -57,6 +52,7 @@ public class EmulationActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        updateUI();
 
         // Default resources
         //copyAssetAll(getApplicationContext(), "bios");
@@ -355,6 +351,7 @@ public class EmulationActivity extends BaseActivity {
     protected void onResume() {
         NativeApp.resume();
         super.onResume();
+        updateUI();
         ////
         if (mHIDDeviceManager != null) {
             mHIDDeviceManager.setFrozen(false);
@@ -434,8 +431,14 @@ public class EmulationActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
         super.onConfigurationChanged(p_newConfig);
+        updateUI();
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        updateUI();
+    }
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         if (SDLControllerManager.isDeviceSDLJoystick(event.getDeviceId())) {
@@ -471,6 +474,18 @@ public class EmulationActivity extends BaseActivity {
             }
         }
         return super.onKeyUp(p_keyCode, p_event);
+    }
+
+    private void updateUI() {
+        View decorView = getWindow().getDecorView();
+        if (decorView != null) {
+            decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_FULLSCREEN
+              | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+              | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+              | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            );
+        }
     }
 
     public static void sendKeyAction(View p_view, int p_action, int p_keycode) {
