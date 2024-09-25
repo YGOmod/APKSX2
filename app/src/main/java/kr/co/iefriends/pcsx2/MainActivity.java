@@ -2,11 +2,12 @@ package kr.co.iefriends.pcsx2;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.os.Bundle;
+import android.os.Process;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -77,6 +78,23 @@ public class MainActivity extends BaseActivity {
 
     public void onConfigurationChanged(Configuration configuration) {
         super.onConfigurationChanged(configuration);
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        int myPid = Process.myPid();
+        ActivityManager actManager = (ActivityManager) getSystemService("activity");
+        if (actManager != null) {
+            try {
+                for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : actManager.getRunningAppProcesses()) {
+                    if (runningAppProcessInfo.pid != myPid) {
+                        Process.killProcess(runningAppProcessInfo.pid);
+                    }
+                }
+            } catch (Exception ignored) {}
+        }
+        Process.killProcess(myPid);
     }
 
     public static void copyAssetAll(Context p_context, String srcPath) {
