@@ -544,15 +544,13 @@ class SDLHapticHandler {
             if (haptic == null) {
                 InputDevice device = InputDevice.getDevice(deviceIds[i]);
                 Vibrator vib = device.getVibrator();
-                if (vib != null) {
-                    if (vib.hasVibrator()) {
-                        haptic = new SDLHaptic();
-                        haptic.device_id = deviceIds[i];
-                        haptic.name = device.getName();
-                        haptic.vib = vib;
-                        mHaptics.add(haptic);
-                        SDLControllerManager.nativeAddHaptic(haptic.device_id, haptic.name);
-                    }
+                if (vib != null && vib.hasVibrator()) {
+                    haptic = new SDLHaptic();
+                    haptic.device_id = deviceIds[i];
+                    haptic.name = device.getName();
+                    haptic.vib = vib;
+                    mHaptics.add(haptic);
+                    SDLControllerManager.nativeAddHaptic(haptic.device_id, haptic.name);
                 }
             }
         }
@@ -584,13 +582,11 @@ class SDLHapticHandler {
                 if (device_id == deviceIds[i]) break;
             }
 
-            if (device_id != deviceId_VIBRATOR_SERVICE || !hasVibratorService) {
-                if (i == deviceIds.length) {
-                    if (removedDevices == null) {
-                        removedDevices = new ArrayList<Integer>();
-                    }
-                    removedDevices.add(device_id);
+            if ((device_id != deviceId_VIBRATOR_SERVICE || !hasVibratorService) && i == deviceIds.length) {
+                if (removedDevices == null) {
+                    removedDevices = new ArrayList<Integer>();
                 }
+                removedDevices.add(device_id);
             }  // else: don't remove the vibrator if it is still present
         }
 

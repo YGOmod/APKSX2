@@ -481,11 +481,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyUp(int p_keyCode, KeyEvent p_event) {
-        if ((p_event.getSource() & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD) {
-            if (p_event.getRepeatCount() == 0) {
+        if ((p_event.getSource() & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD && p_event.getRepeatCount() == 0) {
                 SDLControllerManager.onNativePadUp(p_event.getDeviceId(), p_keyCode);
                 return true;
-            }
         }
         return super.onKeyUp(p_keyCode, p_event);
     }

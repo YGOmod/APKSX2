@@ -463,13 +463,11 @@ class HIDDeviceBLESteamController extends BluetoothGattCallback implements HIDDe
     public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         //Log.v(TAG, "onCharacteristicWrite status=" + status + " uuid=" + characteristic.getUuid());
 
-        if (characteristic.getUuid().equals(reportCharacteristic)) {
+        if (characteristic.getUuid().equals(reportCharacteristic) && !isRegistered()) {
             // Only register controller with the native side once it has been fully configured
-            if (!isRegistered()) {
-                Log.v(TAG, "Registering Steam Controller with ID: " + getId());
-                mManager.HIDDeviceConnected(getId(), getIdentifier(), getVendorId(), getProductId(), getSerialNumber(), getVersion(), getManufacturerName(), getProductName(), 0, 0, 0, 0);
-                setRegistered();
-            }
+            Log.v(TAG, "Registering Steam Controller with ID: " + getId());
+            mManager.HIDDeviceConnected(getId(), getIdentifier(), getVendorId(), getProductId(), getSerialNumber(), getVersion(), getManufacturerName(), getProductName(), 0, 0, 0, 0);
+            setRegistered();
         }
 
         finishCurrentGattOperation();

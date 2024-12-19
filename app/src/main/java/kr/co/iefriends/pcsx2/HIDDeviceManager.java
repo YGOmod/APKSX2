@@ -212,13 +212,9 @@ public class HIDDeviceManager {
     }
 
     private boolean isHIDDeviceInterface(UsbDevice usbDevice, UsbInterface usbInterface) {
-        if (usbInterface.getInterfaceClass() == UsbConstants.USB_CLASS_HID) {
-            return true;
-        }
-        if (isXbox360Controller(usbDevice, usbInterface) || isXboxOneController(usbDevice, usbInterface)) {
-            return true;
-        }
-        return false;
+        return usbInterface.getInterfaceClass() == UsbConstants.USB_CLASS_HID
+            || isXbox360Controller(usbDevice, usbInterface)
+            || isXboxOneController(usbDevice, usbInterface);
     }
 
     private boolean isXbox360Controller(UsbDevice usbDevice, UsbInterface usbInterface) {
@@ -680,7 +676,10 @@ public class HIDDeviceManager {
     private native void HIDDeviceRegisterCallback();
     private native void HIDDeviceReleaseCallback();
 
-    native void HIDDeviceConnected(int deviceID, String identifier, int vendorId, int productId, String serial_number, int release_number, String manufacturer_string, String product_string, int interface_number, int interface_class, int interface_subclass, int interface_protocol);
+    native void HIDDeviceConnected(int deviceID, String identifier, int vendorId, 
+                                   int productId, String serial_number, int release_number, 
+                                   String manufacturer_string, String product_string, int interface_number,
+                                   int interface_class, int interface_subclass, int interface_protocol);
     native void HIDDeviceOpenPending(int deviceID);
     native void HIDDeviceOpenResult(int deviceID, boolean opened);
     native void HIDDeviceDisconnected(int deviceID);
