@@ -775,7 +775,7 @@ bool FileSystem::StatFile(const char* path, struct stat* st)
 		return false;
 
 	struct _stat64 st64;
-	if (_wstati64(wpath.c_str(), &st64) != 0)
+	if (_wstat64(wpath.c_str(), &st64) != 0)
 		return false;
 
 	TranslateStat64(st, st64);
@@ -789,7 +789,7 @@ bool FileSystem::StatFile(std::FILE* fp, struct stat* st)
 		return false;
 
 	struct _stat64 st64;
-	if (_fstati64(fd, &st64) != 0)
+	if (_fstat64(fd, &st64) != 0)
 		return false;
 
 	TranslateStat64(st, st64);
@@ -865,7 +865,7 @@ bool FileSystem::StatFile(std::FILE* fp, FILESYSTEM_STAT_DATA* sd)
 		return false;
 
 	struct _stat64 st;
-	if (_fstati64(fd, &st) != 0)
+	if (_fstat64(fd, &st) != 0)
 		return false;
 
 	// parse attributes
