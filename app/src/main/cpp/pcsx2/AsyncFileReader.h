@@ -112,44 +112,6 @@ public:
 #endif
 };
 
-class MultipartFileReader : public AsyncFileReader
-{
-	DeclareNoncopyableObject( MultipartFileReader );
-
-	static const int MaxParts = 8;
-
-	struct Part {
-		uint start;
-		uint end; // exclusive
-		bool isReading;
-		AsyncFileReader* reader;
-	} m_parts[MaxParts];
-	uint m_numparts;
-
-	uint GetFirstPart(uint lsn);
-	void FindParts();
-
-public:
-	MultipartFileReader(AsyncFileReader* firstPart);
-	virtual ~MultipartFileReader() override;
-
-	virtual bool Open(std::string fileName) override;
-
-	virtual int ReadSync(void* pBuffer, uint sector, uint count) override;
-
-	virtual void BeginRead(void* pBuffer, uint sector, uint count) override;
-	virtual int FinishRead(void) override;
-	virtual void CancelRead(void) override;
-
-	virtual void Close(void) override;
-
-	virtual uint GetBlockCount(void) const override;
-
-	virtual void SetBlockSize(uint bytes) override;
-
-	static AsyncFileReader* DetectMultipart(AsyncFileReader* reader);
-};
-
 class BlockdumpFileReader : public AsyncFileReader
 {
 	DeclareNoncopyableObject( BlockdumpFileReader );

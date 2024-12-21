@@ -158,7 +158,6 @@ set(pcsx2Sources
 	MMI.cpp
 	MTGS.cpp
 	MTVU.cpp
-	MultipartFileReader.cpp
 	Patch.cpp
 	Patch_Memory.cpp
 	Pcsx2Config.cpp
