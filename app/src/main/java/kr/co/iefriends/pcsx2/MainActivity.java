@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         copyAssetAll(getApplicationContext(), "resources");
 
         Initialize();
+        NativeApp.renderGpu(14); //Vulkan default
 
         makeButtonTouch();
 
