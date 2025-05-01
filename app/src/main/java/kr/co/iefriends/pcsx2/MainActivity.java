@@ -343,20 +343,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public final ActivityResultLauncher<Intent> startActivityResultLocalFilePlay = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if(result.getResultCode() == Activity.RESULT_OK) {
-                    try {
-                        Intent _intent = result.getData();
-                        if(_intent != null) {
-                            m_szGamefile = _intent.getDataString();
-                            if(!TextUtils.isEmpty(m_szGamefile)) {
-                                restartEmuThread();
-                            }
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            if(result.getResultCode() == Activity.RESULT_OK) {
+                try {
+                    Intent _intent = result.getData();
+                    if(_intent != null) {
+                        m_szGamefile = _intent.getDataString();
+                        if(!TextUtils.isEmpty(m_szGamefile)) {
+                            restartEmuThread();
                         }
-                    } catch (Exception ignored) {}
-                }
-            });
+                    }
+                } catch (Exception ignored) {}
+            }
+        });
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration p_newConfig) {
@@ -421,14 +421,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void setSurfaceView(Object p_value) {
         FrameLayout fl_board = findViewById(R.id.fl_board);
-        if(fl_board != null) {
-            if(fl_board.getChildCount() > 0) {
-                fl_board.removeAllViews();
-            }
-            ////
-            if(p_value instanceof SDLSurface) {
-                fl_board.addView((SDLSurface)p_value);
-            }
+        if (fl_board == null) {
+            return;
+        }
+        
+        if (fl_board.getChildCount() > 0) {
+            fl_board.removeAllViews();
+        }
+        
+        if (p_value instanceof SDLSurface) {
+            fl_board.addView((SDLSurface) p_value);
         }
     }
 
@@ -443,7 +445,7 @@ public class MainActivity extends AppCompatActivity {
         NativeApp.shutdown();
         if (mEmulationThread != null) {
             try {
-                mEmulationThread.join();
+                mEmulationThread.join(5000); // avoid hanging
                 mEmulationThread = null;
             }
             catch (InterruptedException ignored) {}

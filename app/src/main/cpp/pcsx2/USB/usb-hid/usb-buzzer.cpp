@@ -43,7 +43,7 @@ extern "C" {
 #define USB_TABLET 2
 
 typedef struct USBKeyboardState {
-    USBDevice dev;
+	USBDevice dev;
 	int keyboard_grabbed;
 } USBKeyboardState;
 
@@ -488,11 +488,11 @@ static const uint8_t qemu_keyboard_config_descriptor[] = {
 	0x04,       /*  u8  iConfiguration; */
 	0xa0,       /*  u8  bmAttributes; 
 				 Bit 7: must be set,
-				     6: Self-powered,
-				     5: Remote wakeup,
-				     4..0: resvd */
+					 6: Self-powered,
+					 5: Remote wakeup,
+					 4..0: resvd */
 	50,         /*  u8  MaxPower; */
-      
+
 	/* USB 1.1:
 	 * USB 2.0, single TT organization (mandatory):
 	 *	one interface, protocol 0
@@ -514,7 +514,7 @@ static const uint8_t qemu_keyboard_config_descriptor[] = {
 	0x01,       /*  u8  if_bInterfaceSubClass; */
 	0x01,       /*  u8  if_bInterfaceProtocol; [usb1.1 or single tt] */
 	0x05,       /*  u8  if_iInterface; */
-     
+
         /* HID descriptor */
         0x09,        /*  u8  bLength; */
         0x21,        /*  u8 bDescriptorType; */
@@ -547,7 +547,7 @@ static const uint8_t qemu_tablet_config_descriptor[] = {
 				     5: Remote wakeup,
 				     4..0: resvd */
 	50,         /*  u8  MaxPower; */
-      
+
 	/* USB 1.1:
 	 * USB 2.0, single TT organization (mandatory):
 	 *	one interface, protocol 0
@@ -570,14 +570,14 @@ static const uint8_t qemu_tablet_config_descriptor[] = {
 	0x02,       /*  u8  if_bInterfaceProtocol; [usb1.1 or single tt] */
 	0x05,       /*  u8  if_iInterface; */
 
-        /* HID descriptor */
-        0x09,        /*  u8  bLength; */
-        0x21,        /*  u8 bDescriptorType; */
-        0x03, 0x00,  /*  u16 HID_class */
-        0x00,        /*  u8 country_code */
-        0x01,        /*  u8 num_descriptors */
-        0x22,        /*  u8 type; Report */
-        74, 0,       /*  u16 len */
+		/* HID descriptor */
+		0x09,        /*  u8  bLength; */
+		0x21,        /*  u8 bDescriptorType; */
+		0x03, 0x00,  /*  u16 HID_class */
+		0x00,        /*  u8 country_code */
+		0x01,        /*  u8 num_descriptors */
+		0x22,        /*  u8 type; Report */
+		74, 0,       /*  u16 len */
 
 	/* one endpoint (status change endpoint) */
 	0x07,       /*  u8  ep_bLength; */
@@ -589,8 +589,8 @@ static const uint8_t qemu_tablet_config_descriptor[] = {
 };
 
 static const uint8_t qemu_keyboard_hid_report_descriptor[] = {
-    0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
-    0x09, 0x06,                    // USAGE (Keyboard)
+	0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
+	0x09, 0x06,                    // USAGE (Keyboard)
     0xa1, 0x01,                    // COLLECTION (Application)
     0x05, 0x07,                    //   USAGE_PAGE (Keyboard)
     0x19, 0xe0,                    //   USAGE_MINIMUM (Keyboard Left Control)
@@ -661,120 +661,120 @@ static int usb_keyboard_poll(USBKeyboardState *s, uint8_t *buf, int len)
 
 static void usb_keyboard_handle_reset(USBDevice *dev)
 {
-    USBKeyboardState *s = (USBKeyboardState *)dev;
+	USBKeyboardState *s = (USBKeyboardState *)dev;
 }
 
 static int usb_keyboard_handle_control(USBDevice *dev, int request, int value,
                                   int index, int length, uint8_t *data)
 {
-    USBKeyboardState *s = (USBKeyboardState *)dev;
-    int ret = 0;
+	USBKeyboardState *s = (USBKeyboardState *)dev;
+	int ret = 0;
 	unsigned char buf[8];
 
-    switch(request) {
-    case DeviceRequest | USB_REQ_GET_STATUS:
-        data[0] = (1 << USB_DEVICE_SELF_POWERED) |
-            (dev->remote_wakeup << USB_DEVICE_REMOTE_WAKEUP);
-        data[1] = 0x00;
-        ret = 2;
-        break;
-    case DeviceOutRequest | USB_REQ_CLEAR_FEATURE:
-        if (value == USB_DEVICE_REMOTE_WAKEUP) {
-            dev->remote_wakeup = 0;
-        } else {
-            goto fail;
-        }
-        ret = 0;
-        break;
-    case DeviceOutRequest | USB_REQ_SET_FEATURE:
-        if (value == USB_DEVICE_REMOTE_WAKEUP) {
-            dev->remote_wakeup = 1;
-        } else {
-            goto fail;
-        }
-        ret = 0;
-        break;
-    case DeviceOutRequest | USB_REQ_SET_ADDRESS:
-        dev->addr = value;
-        ret = 0;
-        break;
-    case DeviceRequest | USB_REQ_GET_DESCRIPTOR:
-        switch(value >> 8) {
-        case USB_DT_DEVICE:
-            memcpy(data, qemu_keyboard_dev_descriptor, 
-                   sizeof(qemu_keyboard_dev_descriptor));
-            ret = sizeof(qemu_keyboard_dev_descriptor);
-            break;
-        case USB_DT_CONFIG:
+	switch(request) {
+	case DeviceRequest | USB_REQ_GET_STATUS:
+		data[0] = (1 << USB_DEVICE_SELF_POWERED) |
+			(dev->remote_wakeup << USB_DEVICE_REMOTE_WAKEUP);
+		data[1] = 0x00;
+		ret = 2;
+		break;
+	case DeviceOutRequest | USB_REQ_CLEAR_FEATURE:
+		if (value == USB_DEVICE_REMOTE_WAKEUP) {
+			dev->remote_wakeup = 0;
+		} else {
+			goto fail;
+		}
+		ret = 0;
+		break;
+	case DeviceOutRequest | USB_REQ_SET_FEATURE:
+		if (value == USB_DEVICE_REMOTE_WAKEUP) {
+			dev->remote_wakeup = 1;
+		} else {
+			goto fail;
+		}
+		ret = 0;
+		break;
+	case DeviceOutRequest | USB_REQ_SET_ADDRESS:
+		dev->addr = value;
+		ret = 0;
+		break;
+	case DeviceRequest | USB_REQ_GET_DESCRIPTOR:
+		switch(value >> 8) {
+		case USB_DT_DEVICE:
+			memcpy(data, qemu_keyboard_dev_descriptor, 
+				   sizeof(qemu_keyboard_dev_descriptor));
+			ret = sizeof(qemu_keyboard_dev_descriptor);
+			break;
+		case USB_DT_CONFIG:
 			memcpy(data, qemu_keyboard_config_descriptor, 
 				   sizeof(qemu_keyboard_config_descriptor));
 			ret = sizeof(qemu_keyboard_config_descriptor);
-            break;
-        case USB_DT_STRING:
-            switch(value & 0xff) {
-            case 0:
-                /* language ids */
-                data[0] = 4;
-                data[1] = 3;
-                data[2] = 0x09;
-                data[3] = 0x04;
-                ret = 4;
-                break;
-            case 1:
-                /* serial number */
-                ret = set_usb_string(data, "1");
-                break;
-            case 2:
-                /* product description */
-			    ret = set_usb_string(data, "Generic USB Keyboard");
-                break;
-            case 3:
-                /* vendor description */
-                ret = set_usb_string(data, "PCSX2/QEMU");
-                break;
-            case 4:
-                ret = set_usb_string(data, "HID Keyboard");
-                break;
-            case 5:
-                ret = set_usb_string(data, "Endpoint1 Interrupt Pipe");
-                break;
-            default:
-                goto fail;
-            }
-            break;
-        default:
-            goto fail;
-        }
-        break;
-    case DeviceRequest | USB_REQ_GET_CONFIGURATION:
-        data[0] = 1;
-        ret = 1;
-        break;
-    case DeviceOutRequest | USB_REQ_SET_CONFIGURATION:
-        ret = 0;
-        break;
-    case DeviceRequest | USB_REQ_GET_INTERFACE:
-        data[0] = 0;
-        ret = 1;
-        break;
-    case DeviceOutRequest | USB_REQ_SET_INTERFACE:
-        ret = 0;
-        break;
-        /* hid specific requests */
-    case InterfaceRequest | USB_REQ_GET_DESCRIPTOR:
-        switch(value >> 8) {
-        case 0x22:
+			break;
+		case USB_DT_STRING:
+			switch(value & 0xff) {
+			case 0:
+				/* language ids */
+				data[0] = 4;
+				data[1] = 3;
+				data[2] = 0x09;
+				data[3] = 0x04;
+				ret = 4;
+				break;
+			case 1:
+				/* serial number */
+				ret = set_usb_string(data, "1");
+				break;
+			case 2:
+				/* product description */
+				ret = set_usb_string(data, "Generic USB Keyboard");
+				break;
+			case 3:
+				/* vendor description */
+				ret = set_usb_string(data, "PCSX2/QEMU");
+				break;
+			case 4:
+				ret = set_usb_string(data, "HID Keyboard");
+				break;
+			case 5:
+				ret = set_usb_string(data, "Endpoint1 Interrupt Pipe");
+				break;
+			default:
+				goto fail;
+			}
+			break;
+		default:
+			goto fail;
+		}
+		break;
+	case DeviceRequest | USB_REQ_GET_CONFIGURATION:
+		data[0] = 1;
+		ret = 1;
+		break;
+	case DeviceOutRequest | USB_REQ_SET_CONFIGURATION:
+		ret = 0;
+		break;
+	case DeviceRequest | USB_REQ_GET_INTERFACE:
+		data[0] = 0;
+		ret = 1;
+		break;
+	case DeviceOutRequest | USB_REQ_SET_INTERFACE:
+		ret = 0;
+		break;
+		/* hid specific requests */
+	case InterfaceRequest | USB_REQ_GET_DESCRIPTOR:
+		switch(value >> 8) {
+		case 0x22:
 			memcpy(data, qemu_keyboard_hid_report_descriptor, 
 				   sizeof(qemu_keyboard_hid_report_descriptor));
 			ret = sizeof(qemu_keyboard_hid_report_descriptor);
-	    break;
-        default:
-            goto fail;
-        }
-        break;
-    case GET_REPORT:
-	    ret = usb_keyboard_poll(s, data, length);
-        break;
+		break;
+		default:
+			goto fail;
+		}
+		break;
+	case GET_REPORT:
+		ret = usb_keyboard_poll(s, data, length);
+		break;
 	case 0x2109:
 		ret=0;
 		memset(buf, 0, 8);
@@ -785,33 +785,33 @@ static int usb_keyboard_handle_control(USBDevice *dev, int request, int value,
 		CancelIo(usb_buzzer);
 		WriteFile(usb_buzzer, buf, 8, 0, &ovl);
 		break;
-    case SET_IDLE:
-        ret = 0;
-        break;
-    default:
-    fail:
-        ret = USB_RET_STALL;
-        break;
-    }
-    return ret;
+	case SET_IDLE:
+		ret = 0;
+		break;
+	default:
+	fail:
+		ret = USB_RET_STALL;
+		break;
+	}
+	return ret;
 }
 
 static int usb_keyboard_handle_data(USBDevice *dev, int pid, 
                                  uint8_t devep, uint8_t *data, int len)
 {
-    USBKeyboardState *s = (USBKeyboardState *)dev;
-    int ret = 0;
+	USBKeyboardState *s = (USBKeyboardState *)dev;
+	int ret = 0;
 	unsigned char buf[8];
 
-    switch(pid) {
-    case USB_TOKEN_IN:
-        if (devep == 1) {
+	switch(pid) {
+	case USB_TOKEN_IN:
+		if (devep == 1) {
 			ret = usb_keyboard_poll(s, data, len);
-        } else {
-            goto fail;
-        }
-        break;
-    case USB_TOKEN_OUT:
+		} else {
+			goto fail;
+		}
+		break;
+	case USB_TOKEN_OUT:
 		ret=0;
 		memset(buf, 0, 8);
 		buf[2]=data[1];
@@ -821,40 +821,40 @@ static int usb_keyboard_handle_data(USBDevice *dev, int pid,
 		CancelIo(usb_buzzer);
 		WriteFile(usb_buzzer, buf, 8, 0, &ovl);
 		break;
-    default:
-    fail:
-        ret = USB_RET_STALL;
-        break;
-    }
-    return ret;
+	default:
+	fail:
+		ret = USB_RET_STALL;
+		break;
+	}
+	return ret;
 }
 
 static void usb_keyboard_handle_destroy(USBDevice *dev)
 {
-    USBKeyboardState *s = (USBKeyboardState *)dev;
+	USBKeyboardState *s = (USBKeyboardState *)dev;
 
-    //qemu_add_keyboard_event_handler(NULL, NULL, 0);
-    free(s);
+	//qemu_add_keyboard_event_handler(NULL, NULL, 0);
+	free(s);
 	CloseHandle(usb_buzzer);
 }
 
 USBDevice *usb_keyboard_init(void)
 {
-    USBKeyboardState *s;
+	USBKeyboardState *s;
 
-    s = (USBKeyboardState *)malloc(sizeof(USBKeyboardState));
-    if (!s)
-        return NULL;
-    memset(s,0,sizeof(USBKeyboardState));
-    s->dev.speed = USB_SPEED_FULL;
-    s->dev.handle_packet = usb_generic_handle_packet;
+	s = (USBKeyboardState *)malloc(sizeof(USBKeyboardState));
+	if (!s)
+		return NULL;
+	memset(s,0,sizeof(USBKeyboardState));
+	s->dev.speed = USB_SPEED_FULL;
+	s->dev.handle_packet = usb_generic_handle_packet;
 
-    s->dev.handle_reset = usb_keyboard_handle_reset;
-    s->dev.handle_control = usb_keyboard_handle_control;
-    s->dev.handle_data = usb_keyboard_handle_data;
-    s->dev.handle_destroy = usb_keyboard_handle_destroy;
+	s->dev.handle_reset = usb_keyboard_handle_reset;
+	s->dev.handle_control = usb_keyboard_handle_control;
+	s->dev.handle_data = usb_keyboard_handle_data;
+	s->dev.handle_destroy = usb_keyboard_handle_destroy;
 
-    strncpy(s->dev.devname, "Generic USB Keyboard", sizeof(s->dev.devname));
+	strncpy(s->dev.devname, "Generic USB Keyboard", sizeof(s->dev.devname));
 
 	int i=0;
 	DWORD needed=0;
@@ -931,6 +931,6 @@ USBDevice *usb_keyboard_init(void)
 		i++;
 	}
 
-    return (USBDevice *)s;
+	return (USBDevice *)s;
 }
 #endif

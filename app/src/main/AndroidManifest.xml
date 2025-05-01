@@ -63,6 +63,7 @@
             android:name=".EmulationActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorLandscape"
-            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard"/>
+            android:configChanges="smallestScreenSize|screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard"
+            android:exported="false"/>
     </application>
 </manifest>

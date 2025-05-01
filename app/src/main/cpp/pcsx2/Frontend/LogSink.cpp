@@ -170,7 +170,7 @@ static void ConsoleQt_DoWriteLn(const char* fmt)
 	float message_time = s_log_timestamps ?
 							 static_cast<float>(
 								 Common::Timer::ConvertValueToSeconds(Common::Timer::GetCurrentValue() - s_log_start_timestamp)) :
-                             0.0f;
+							 0.0f;
 
 	// split newlines up
 	const char* start = fmt;
@@ -381,7 +381,7 @@ void Host::UpdateLogging()
 	DevConWriterEnabled = any_logging_sinks && (IsDevBuild || Host::GetBaseBoolSettingValue("Logging", "EnableVerbose", false));
 	SysConsole.eeConsole.Enabled = any_logging_sinks && Host::GetBaseBoolSettingValue("Logging", "EnableEEConsole", false);
 	SysConsole.iopConsole.Enabled = any_logging_sinks && Host::GetBaseBoolSettingValue("Logging", "EnableIOPConsole", false);
-    
+
 	// Input Recording Logs
 	SysConsole.recordingConsole.Enabled = any_logging_sinks && Host::GetBaseBoolSettingValue("Logging", "EnableInputRecordingLogs", true);
 	SysConsole.controlInfo.Enabled = any_logging_sinks && Host::GetBaseBoolSettingValue("Logging", "EnableControllerLogs", false);

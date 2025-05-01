@@ -30,5 +30,6 @@ add_library(soundtouch
 	source/SoundTouch/RateTransposer.h
 	source/SoundTouch/TDStretch.h
 )
+
 target_include_directories(soundtouch PUBLIC soundtouch)
 add_library(PkgConfig::SOUNDTOUCH ALIAS soundtouch)

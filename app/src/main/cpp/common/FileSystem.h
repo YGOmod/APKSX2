@@ -50,6 +50,7 @@ enum FILESYSTEM_FIND_FLAGS
 
 struct FILESYSTEM_STAT_DATA
 {
+	std::time_t CreationTime; // actually inode change time on linux
 	std::time_t ModificationTime;
 	s64 Size;
 	u32 Attributes;
@@ -57,6 +58,7 @@ struct FILESYSTEM_STAT_DATA
 
 struct FILESYSTEM_FIND_DATA
 {
+	std::time_t CreationTime; // actually inode change time on linux
 	std::time_t ModificationTime;
 	std::string FileName;
 	s64 Size;

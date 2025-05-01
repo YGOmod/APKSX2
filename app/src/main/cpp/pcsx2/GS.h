@@ -26,10 +26,10 @@ alignas(16) extern u8 g_RealGSMem[Ps2MemSize::GSregs];
 
 enum CSR_FifoState
 {
-    CSR_FIFO_NORMAL = 0,	// Somwhere in between (Neither empty or almost full).
-    CSR_FIFO_EMPTY,			// Empty
-    CSR_FIFO_FULL,			// Almost Full
-    CSR_FIFO_RESERVED		// Reserved / Unused.
+	CSR_FIFO_NORMAL = 0,	// Somwhere in between (Neither empty or almost full).
+	CSR_FIFO_EMPTY,			// Empty
+	CSR_FIFO_FULL,			// Almost Full
+	CSR_FIFO_RESERVED		// Reserved / Unused.
 };
 
 // --------------------------------------------------------------------------------------
@@ -130,38 +130,38 @@ union tGS_CSR
 		u64 ID		:8;
 	};
 
-    u64 _u64;
-    
-    struct  
-    {
+	u64 _u64;
+
+	struct
+	{
 		u32	_u32;			// lower 32 bits (all useful content!)
 		u32	_unused32;		// upper 32 bits (unused -- should probably be 0)
-    };
+	};
 
 	void SwapField()
 	{
 		_u32 ^= 0x2000;
 	}
 
-    void Reset()
-    {
-        _u64	= 0;
-        FIFO	= CSR_FIFO_EMPTY;
-        REV		= 0x1B; // GS Revision
-        ID		= 0x55; // GS ID
-    }
+	void Reset()
+	{
+		_u64	= 0;
+		FIFO	= CSR_FIFO_EMPTY;
+		REV		= 0x1B; // GS Revision
+		ID		= 0x55; // GS ID
+	}
 
-    bool HasAnyInterrupts() const { return (SIGNAL || FINISH || HSINT || VSINT || EDWINT); }
+	bool HasAnyInterrupts() const { return (SIGNAL || FINISH || HSINT || VSINT || EDWINT); }
 
 	u32 GetInterruptMask() const
 	{
 		return _u32 & 0x1f;
 	}
 
-    void SetAllInterrupts(bool value=true)
-    {
-        SIGNAL = FINISH = HSINT = VSINT = EDWINT = value;
-    }
+	void SetAllInterrupts(bool value=true)
+	{
+		SIGNAL = FINISH = HSINT = VSINT = EDWINT = value;
+	}
 
 	tGS_CSR(u64 val) { _u64 = val; }
 	tGS_CSR(u32 val) { _u32 = val; }
@@ -173,32 +173,32 @@ union tGS_CSR
 // --------------------------------------------------------------------------------------
 union tGS_IMR
 {
-    struct
-    {
-        u32 _reserved1	: 8;
-        u32 SIGMSK		: 1; // Signal evevnt interrupt mask
-        u32 FINISHMSK	: 1; // Finish event interrupt mask
-        u32 HSMSK		: 1; // HSync interrupt mask
-        u32 VSMSK		: 1; // VSync interrupt mask
-        u32 EDWMSK		: 1; // Rectangle write termination interrupt mask
-        u32 _undefined	: 2; // undefined bits should be set to 1.
-        u32 _reserved2	: 17;
-    };
-    u32 _u32;
+	struct
+	{
+		u32 _reserved1	: 8;
+		u32 SIGMSK		: 1; // Signal evevnt interrupt mask
+		u32 FINISHMSK	: 1; // Finish event interrupt mask
+		u32 HSMSK		: 1; // HSync interrupt mask
+		u32 VSMSK		: 1; // VSync interrupt mask
+		u32 EDWMSK		: 1; // Rectangle write termination interrupt mask
+		u32 _undefined	: 2; // undefined bits should be set to 1.
+		u32 _reserved2	: 17;
+	};
+	u32 _u32;
 
-    void reset()
-    {
-        _u32 = 0;
-        SIGMSK = FINISHMSK = HSMSK = VSMSK = EDWMSK = true;
-        _undefined = 0x3;
-    }
-    void set(u32 value)
-    {
-        _u32 = (value & 0x1f00); // Set only the interrupt mask fields.
-        _undefined = 0x3; // These should always be set.
-    }
+	void reset()
+	{
+		_u32 = 0;
+		SIGMSK = FINISHMSK = HSMSK = VSMSK = EDWMSK = true;
+		_undefined = 0x3;
+	}
+	void set(u32 value)
+	{
+		_u32 = (value & 0x1f00); // Set only the interrupt mask fields.
+		_undefined = 0x3; // These should always be set.
+	}
 
-    bool masked() const { return (SIGMSK || FINISHMSK || HSMSK || VSMSK || EDWMSK); }
+	bool masked() const { return (SIGMSK || FINISHMSK || HSMSK || VSMSK || EDWMSK); }
 };
 
 // --------------------------------------------------------------------------------------
@@ -320,62 +320,62 @@ struct MTGS_MemoryScreenshotData
 class SysMtgsThread
 {
 public:
-    using AsyncCallType = std::function<void()>;
+	using AsyncCallType = std::function<void()>;
 
-    // note: when m_ReadPos == m_WritePos, the fifo is empty
-    // Threading info: m_ReadPos is updated by the MTGS thread. m_WritePos is updated by the EE thread
-    std::atomic<unsigned int> m_ReadPos;  // cur pos gs is reading from
-    std::atomic<unsigned int> m_WritePos; // cur pos ee thread is writing to
+	// note: when m_ReadPos == m_WritePos, the fifo is empty
+	// Threading info: m_ReadPos is updated by the MTGS thread. m_WritePos is updated by the EE thread
+	std::atomic<unsigned int> m_ReadPos;  // cur pos gs is reading from
+	std::atomic<unsigned int> m_WritePos; // cur pos ee thread is writing to
 
-    std::atomic<bool> m_SignalRingEnable;
-    std::atomic<int> m_SignalRingPosition;
+	std::atomic<bool> m_SignalRingEnable;
+	std::atomic<int> m_SignalRingPosition;
 
-    std::atomic<int> m_QueuedFrameCount;
-    std::atomic<bool> m_VsyncSignalListener;
+	std::atomic<int> m_QueuedFrameCount;
+	std::atomic<bool> m_VsyncSignalListener;
 
-    std::mutex m_mtx_RingBufferBusy2; // Gets released on semaXGkick waiting...
-    std::mutex m_mtx_WaitGS;
-    Threading::WorkSema m_sem_event;
-    Threading::KernelSemaphore m_sem_OnRingReset;
-    Threading::KernelSemaphore m_sem_Vsync;
+	std::mutex m_mtx_RingBufferBusy2; // Gets released on semaXGkick waiting...
+	std::mutex m_mtx_WaitGS;
+	Threading::WorkSema m_sem_event;
+	Threading::KernelSemaphore m_sem_OnRingReset;
+	Threading::KernelSemaphore m_sem_Vsync;
 
-    // used to keep multiple threads from sending packets to the ringbuffer concurrently.
-    // (currently not used or implemented -- is a planned feature for a future threaded VU1)
-    //MutexLockRecursive m_PacketLocker;
+	// used to keep multiple threads from sending packets to the ringbuffer concurrently.
+	// (currently not used or implemented -- is a planned feature for a future threaded VU1)
+	//MutexLockRecursive m_PacketLocker;
 
-    // Used to delay the sending of events.  Performance is better if the ringbuffer
-    // has more than one command in it when the thread is kicked.
-    int m_CopyDataTally;
+	// Used to delay the sending of events.  Performance is better if the ringbuffer
+	// has more than one command in it when the thread is kicked.
+	int m_CopyDataTally;
 
-    // These vars maintain instance data for sending Data Packets.
-    // Only one data packet can be constructed and uploaded at a time.
+	// These vars maintain instance data for sending Data Packets.
+	// Only one data packet can be constructed and uploaded at a time.
 
-    uint m_packet_startpos; // size of the packet (data only, ie. not including the 16 byte command!)
-    uint m_packet_size; // size of the packet (data only, ie. not including the 16 byte command!)
-    uint m_packet_writepos; // index of the data location in the ringbuffer.
+	uint m_packet_startpos; // size of the packet (data only, ie. not including the 16 byte command!)
+	uint m_packet_size; // size of the packet (data only, ie. not including the 16 byte command!)
+	uint m_packet_writepos; // index of the data location in the ringbuffer.
 
 #ifdef RINGBUF_DEBUG_STACK
-    std::mutex m_lock_Stack;
+	std::mutex m_lock_Stack;
 #endif
 
-    std::thread m_thread;
-    Threading::ThreadHandle m_thread_handle;
-    std::atomic_bool m_open_flag{false};
-    std::atomic_bool m_shutdown_flag{false};
-    Threading::KernelSemaphore m_open_or_close_done;
+	std::thread m_thread;
+	Threading::ThreadHandle m_thread_handle;
+	std::atomic_bool m_open_flag{false};
+	std::atomic_bool m_shutdown_flag{false};
+	Threading::KernelSemaphore m_open_or_close_done;
 
 public:
 	SysMtgsThread();
 	virtual ~SysMtgsThread();
 
-    __fi const Threading::ThreadHandle& GetThreadHandle() const { return m_thread_handle; }
-    __fi bool IsOpen() const { return m_open_flag.load(std::memory_order_acquire); }
+	__fi const Threading::ThreadHandle& GetThreadHandle() const { return m_thread_handle; }
+	__fi bool IsOpen() const { return m_open_flag.load(std::memory_order_acquire); }
 
-    /// Starts the thread, if it hasn't already been started.
-    void StartThread();
+	/// Starts the thread, if it hasn't already been started.
+	void StartThread();
 
-    /// Fully stops the thread, closing in the process if needed.
-    void ShutdownThread();
+	/// Fully stops the thread, closing in the process if needed.
+	void ShutdownThread();
 
 	// Waits for the GS to empty out the entire ring buffer contents.
 	void WaitGS(bool syncRegs=true, bool weakWait=false, bool isMTVU=false);
@@ -385,8 +385,8 @@ public:
 	void PrepDataPacket( GIF_PATH pathidx, u32 size );
 	void SendDataPacket();
 	void SendGameCRC( u32 crc );
-    bool WaitForOpen();
-    void WaitForClose();
+	bool WaitForOpen();
+	void WaitForClose();
 	void Freeze( FreezeAction mode, MTGS_FreezeData& data );
 
 	void SendSimpleGSPacket( MTGS_RingCommand type, u32 offset, u32 size, GIF_PATH path );
@@ -411,13 +411,13 @@ protected:
 	bool OpenGS();
 	void CloseGS();
 
-    void ThreadEntryPoint();
-    void MainLoop();
+	void ThreadEntryPoint();
+	void MainLoop();
 
-    void GenericStall(uint size);
+	void GenericStall(uint size);
 
-    // Used internally by SendSimplePacket type functions
-    void _FinishSimplePacket();
+	// Used internally by SendSimplePacket type functions
+	void _FinishSimplePacket();
 };
 
 // GetMTGS() is a required external implementation. This function is *NOT* provided

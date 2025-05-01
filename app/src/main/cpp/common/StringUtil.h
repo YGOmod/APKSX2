@@ -171,8 +171,40 @@ namespace StringUtil
 	/// Splits a string based on a single character delimiter.
 	std::vector<std::string_view> SplitString(const std::string_view& str, char delimiter, bool skip_empty = true);
 
+	/// Joins a string together using the specified delimiter.
+	template<typename T>
+	static inline std::string JoinString(const T& start, const T& end, char delimiter)
+	{
+		std::string ret;
+		for (auto it = start; it != end; ++it)
+		{
+			if (it != start)
+				ret += delimiter;
+			ret.append(*it);
+		}
+		return ret;
+	}
+	template <typename T>
+	static inline std::string JoinString(const T& start, const T& end, const std::string_view& delimiter)
+	{
+		std::string ret;
+		for (auto it = start; it != end; ++it)
+		{
+			if (it != start)
+				ret.append(delimiter);
+			ret.append(*it);
+		}
+		return ret;
+	}
+
+	/// Replaces all instances of search in subject with replacement.
+	std::string ReplaceAll(const std::string_view& subject, const std::string_view& search, const std::string_view& replacement);
+
 	/// Parses an assignment string (Key = Value) into its two components.
 	bool ParseAssignmentString(const std::string_view& str, std::string_view* key, std::string_view* value);
+
+	/// Appends a UTF-16/UTF-32 codepoint to a UTF-8 string.
+	void AppendUTF16CharacterToUTF8(std::string& s, u16 ch);
 
 	/// Strided memcpy/memcmp.
 	static inline void StrideMemCpy(void* dst, std::size_t dst_stride, const void* src, std::size_t src_stride,
@@ -206,6 +238,7 @@ namespace StringUtil
 	}
 
 	std::string toLower(const std::string_view& str);
+	std::string toUpper(const std::string_view& str);
 	bool compareNoCase(const std::string_view& str1, const std::string_view& str2);
 	std::vector<std::string> splitOnNewLine(const std::string& str);
 
@@ -235,4 +268,8 @@ namespace StringUtil
 	/// Converts the specified wide string to a UTF-8 string.
 	std::string WideStringToUTF8String(const std::wstring_view& str);
 	bool WideStringToUTF8String(std::string& dest, const std::wstring_view& str);
+
+	/// Converts unsigned 128-bit data to string.
+	std::string U128ToString(const u128& u);
+	std::string& AppendU128ToString(const u128& u, std::string& s);
 } // namespace StringUtil
