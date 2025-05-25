@@ -349,9 +349,13 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Intent _intent = result.getData();
                     if(_intent != null) {
-                        m_szGamefile = _intent.getDataString();
-                        if(!TextUtils.isEmpty(m_szGamefile)) {
-                            restartEmuThread();
+                        String uriString = _intent.getDataString();
+                        if(!TextUtils.isEmpty(uriString)) {
+                            int fd = NativeApp.openContentUri(uriString);
+                            if (fd != -1) {
+                                m_szGamefile = uriString;
+                                restartEmuThread();
+                            }
                         }
                     }
                 } catch (Exception ignored) {}
