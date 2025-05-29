@@ -30,6 +30,7 @@ public class SDLSurface extends SurfaceView implements SurfaceHolder.Callback {
     // Called when we have a valid drawing surface
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder p_holder) {
+        NativeApp.onNativeSurfaceCreated();
     }
 
     // Called when the surface is resized
@@ -38,7 +39,7 @@ public class SDLSurface extends SurfaceView implements SurfaceHolder.Callback {
         NativeApp.onNativeSurfaceChanged(p_holder.getSurface(), p_width, p_height);
         ////
         MainActivity _nativeActivity = (MainActivity) getContext();
-        if(_nativeActivity != null) {
+        if(_nativeActivity != null && !_nativeActivity.isThread()) {
             _nativeActivity.startEmuThread();
         }
     }
@@ -46,6 +47,7 @@ public class SDLSurface extends SurfaceView implements SurfaceHolder.Callback {
     // Called when we lose the surface
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder p_holder) {
+        NativeApp.onNativeSurfaceDestroyed();
         NativeApp.onNativeSurfaceChanged(null, 0, 0);
     }
 }

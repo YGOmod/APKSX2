@@ -439,9 +439,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startEmuThread() {
-        if(!isThread()) {
-            mEmulationThread = new Thread(() -> NativeApp.runVMThread(m_szGamefile));
-            mEmulationThread.start();
+        if(!isThread() && !m_szGamefile.isEmpty()) {
+            FrameLayout fl_board = findViewById(R.id.fl_board);
+            if (fl_board != null && fl_board.getChildCount() > 0) {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    mEmulationThread = new Thread(() -> NativeApp.runVMThread(m_szGamefile));
+                    mEmulationThread.start();
+                }, 100);
+            }
         }
     }
 
