@@ -9,6 +9,8 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 import android.view.InputDevice;
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
                     || _thread_state == Thread.State.WAITING;
         }
         return false;
+    }
+
+    public boolean isThreadRunning() {
+        return isThread();
     }
 
     @Override
